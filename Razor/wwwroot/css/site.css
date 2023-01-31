@@ -1,0 +1,41 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  background-color: #e1d1bb;
+}
+h1 {
+  margin-bottom: 60px;
+  margin-top: 50px;
+}
+
+.form-check {
+  margin-top: 30px;
+  font-size: 24px;
+}
+.form-check-label {
+  padding-right: 300px;
+  text-align: justify;
+}
+
+.checkbox {
+  padding-left: 400px;
+  margin-bottom: 60px;
+}
+.button {
+  padding-right: 100px;
+  margin-bottom: 70px;
+}

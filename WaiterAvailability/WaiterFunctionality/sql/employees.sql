@@ -1,0 +1,1 @@
+insert into employees(FirstName) values ('Thembisa'),('Lulu'), ('Bongi'), ('Soso'), ('Thuliswa'), ('Xolani'), ('Lungani'), ('Bonga'), ('Thoba'), ('Senzo');

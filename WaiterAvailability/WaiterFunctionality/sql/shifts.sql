@@ -1,0 +1,1 @@
+insert into workschedule (Employees_id, WeekDay_id) values (1, 2);

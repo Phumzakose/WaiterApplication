@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "CMfF8uEAA/LlqL9iRSYY9DF/UYnRkz0mZQ9IGQAXd2VELEfcRdCk23Z7Kh08R8Pse4rO/tn5IxmP126vPcYAZw==",
+  "success": true,
+  "projectFilePath": "/home/codex/c#projects/WaiterApplication/WaiterAvailability/WaiterFunctionality/WaiterFunctionality.csproj",
+  "expectedPackageFiles": [
+    "/home/codex/.nuget/packages/dapper/2.0.123/dapper.2.0.123.nupkg.sha512",
+    "/home/codex/.nuget/packages/microsoft.extensions.logging.abstractions/6.0.0/microsoft.extensions.logging.abstractions.6.0.0.nupkg.sha512",
+    "/home/codex/.nuget/packages/npgsql/7.0.1/npgsql.7.0.1.nupkg.sha512",
+    "/home/codex/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

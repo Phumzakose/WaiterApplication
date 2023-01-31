@@ -1,0 +1,1 @@
+insert into weekdays(WeekDay) values ('Monday'), ('Tuesday'), ('Wednesday'), ('Thursday'), ('Friday'), ('Saturday'), ('Sunday');
