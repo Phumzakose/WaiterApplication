@@ -11,9 +11,9 @@ create table employees (
 
 create table workschedule (
   Employees_id int NOT NULL,
-  WeekDay_id int NOT NULL,
+  WeekDays_id int NOT NULL,
   foreign key(Employees_id) references Employees(id),
-  foreign key(WeekDay_id) references WeekDay(id),
+  foreign key(WeekDays_id) references WeekDays(id)
 
 
 );

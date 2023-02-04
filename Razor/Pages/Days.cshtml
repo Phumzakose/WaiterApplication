@@ -4,28 +4,59 @@
     ViewData["Title"] = "Days page";
 }
 <div class="text-center">
+    <div class="card" style="background-color: #DCC1B0;">
 
-      @if(Model.Data.FirstName != null && Model.Day != null)
-        {
-                <h2> @Model.Data.FirstName here are your working days</h2>
+ <h2>@Model.Data.FirstName?.ToUpper() SCHEDULE YOUR WORKING DAYS</h2>
+     <form method="post">
+      
 
-                <table class="table table-success table-striped">
-                        <tr>
-                        <th>Weekdays</th> 
-                        <th>Selected</th>
-                        </tr>
-                    @foreach (var day in @Model.Day)
+            <input name="FirstName" type="hidden"  value="@Model.Data.FirstName" />
+            <div class="checkbox">
+                @foreach (var item in @Model.WorkingEmployees)
+                {
+                    @if(item.Value.Contains(@Model.Data.FirstName!))
+                {
+                    <div class="form-check ">
+                <input name="Day" class="form-check-input" type="checkbox" checked value="@item.Key" /> 
+                <label class="form-check-label" >@item.Key</label> 
+                    </div>
+                    
+                }
+                else
+                {
+                 
+                    <div class="form-check ">
+                        <input name="Day" class="form-check-input" type="checkbox" value="@item.Key" /> 
+                        <label class="form-check-label" >@item.Key</label> 
+                    </div>
+                   
+                }
+                }
+
+                    
+
+            </div>
+
+                   @if(TempData["AlertMessage"] != null)
                     {
-                    <tr>
-                        <td>@day </td>
-                        <td><input name="Day" type="checkbox" value="@day" id="flexCheckChecked" checked /><br /></td>
-                    </tr>
-                    }
-                </table>
-                 <div class="button">
-                <button asp-page-handler ="submit" class="btn btn-primary btn-lg" type="submit" >Update</button>
-                
-                </div>
 
-        }
+                    <div class="alert alert-success">
+                        <strong>@TempData["AlertMessage"]</strong>
+                    </div>
+                    }       
+            <div class="btns">
+                    <button asp-page-handler ="submit" class="btn btn-primary" type="submit" >Submit</button>
+                    <button asp-page-handler="update" class="btn btn-danger">Update</button>
+                    @* <form asp-page-handler="update" method="post">
+                        <input asp-for="Data.FirstName" type="hidden" asp-route-name="name" value="@Model.Data.FirstName" />
+                        <button asp-page-handler="update" asp-route-name="name" class="btn1, btn btn-danger ">Update</button>
+                    </form>  *@
+
+            </div>
+
+    
+        </form> 
+    </div>
+
+         
 </div>

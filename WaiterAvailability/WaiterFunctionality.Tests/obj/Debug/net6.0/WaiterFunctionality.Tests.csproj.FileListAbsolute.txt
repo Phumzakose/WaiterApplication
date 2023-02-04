@@ -105,3 +105,4 @@
 /home/codex/c#projects/WaiterApplication/WaiterAvailability/WaiterFunctionality.Tests/bin/Debug/net6.0/Dapper.dll
 /home/codex/c#projects/WaiterApplication/WaiterAvailability/WaiterFunctionality.Tests/bin/Debug/net6.0/Microsoft.Extensions.Logging.Abstractions.dll
 /home/codex/c#projects/WaiterApplication/WaiterAvailability/WaiterFunctionality.Tests/bin/Debug/net6.0/Npgsql.dll
+/home/codex/c#projects/WaiterApplication/WaiterAvailability/WaiterFunctionality.Tests/bin/Debug/net6.0/sql/data.sql

@@ -24,24 +24,36 @@ public class IndexModel : PageModel
   public List<string> Day { get; set; }
 
 
+  [BindProperty]
+  public Dictionary<string, List<string>> WorkingEmployees { get; set; }
+
+
   public void OnGet()
   {
-    Day = _waiter.GetWeekDays(Data.FirstName!);
+
+    Day = _waiter.WeekDays(Data.FirstName!);
+    WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
 
   }
 
   public void OnPostSubmit()
   {
-    _waiter.AddingSelectDays(Data.FirstName!, Day);
+    _waiter.AddingSelectedDays(Data.FirstName!, Day);
+    WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
+    TempData["AlertMessage"] = "Your days have been submitted successfully...!";
 
 
   }
-
-
-  public void OnPostRemove()
+  public void OnPostUpdate()
   {
-    _waiter.UpdateWorkingDays(Data.FirstName!);
+    _waiter.UpdateWorkingDays(Data.FirstName!, Day);
+    WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
+
+
   }
+
+
+
 
 
 

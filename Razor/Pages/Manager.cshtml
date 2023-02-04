@@ -1,0 +1,37 @@
+﻿@page
+@model Razor.Pages.ManagerModel
+@{
+  ViewData["Title"] = "Days page";
+}
+<div class="text-center">
+  <div class="card" style="background-color: #DCC1B0;">
+      
+      <h2 class="display-4">WEEK1 SCHEDULE</h2> 
+    <div class="table1">
+      <table class="table table-striped">
+        @foreach (var item in @Model.WorkingEmployees)
+        {
+          <tr>
+            <th>@item.Key</th>
+            @foreach (var days in item.Value)
+            {
+              <td>@days</td>
+            }
+          </tr>
+        }
+      </table>  
+
+    </div>
+
+    <div class="button">
+        <form asp-page-handler="clear" method="post">
+              
+              <button asp-page-handler="clear" asp-route-name="name" class="btn1, btn btn-danger ">Reset</button>
+        </form> 
+    </div>
+
+
+  </div>
+   
+
+</div>

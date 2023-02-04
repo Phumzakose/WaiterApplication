@@ -4,35 +4,42 @@ namespace WaiterFunctionality;
 
 public class WaiterAvailability : IWaiterAvailability
 {
-  string connectionString = "Server=tiny.db.elephantsql.com ;Port=5432;Database=qnnpfxju;UserId=qnnpfxju;Password=YIn1V7tPQXB9tIf9EprMpR5KpSXvDGtm";
 
-  public List<int> selectedDays = new List<int>();
-
-  public List<string> daysSelected = new List<string>();
-
-
-  public void AddingSelectDays(string userName, List<string> selectedDays)
+  private NpgsqlConnection connection;
+  public WaiterAvailability(string connectionString)
   {
-    using var connection = new NpgsqlConnection(connectionString);
+    connection = new NpgsqlConnection(connectionString);
     connection.Open();
+  }
 
+  List<string> daysSelected = new List<string>();
+  List<string> employees = new List<string>();
+
+  Dictionary<string, List<string>> workingEmployees = new Dictionary<string, List<string>>();
+  List<string> newDays = new List<string>();
+
+
+
+
+
+  public string AddingSelectedDays(string userName, List<string> selectedDays)
+  {
+    string message = "";
     var parameters = new { UserName = userName };
 
-
     var sql = @"select count (*) from employees where firstname = @UserName;";
-    var result = connection.QueryFirst(sql, parameters);
+    var count = connection.QuerySingle<int>(sql, parameters);
 
-    int employees_id = 0;
-    if (result.count == 1)
+    if (count == 0)
     {
-      var rows = connection.Query<Employees>(@"select * from employees where firstname = @UserName ", parameters);
-
-      foreach (var id in rows)
-      {
-        employees_id = id.Id;
-
-      }
+      throw new Exception($"Invalid username : {userName}");
     }
+
+
+    var row = connection.QueryFirst<Employees>(@"select * from employees where firstname = @UserName ", parameters);
+
+    var employees_id = row.Id;
+
 
     foreach (var day in selectedDays)
     {
@@ -40,22 +47,56 @@ public class WaiterAvailability : IWaiterAvailability
       var list = connection.Query<Shifts>(@"select * from weekdays where weekday = @UserDays order by id", parameter);
 
       int weekdays_Id = 0;
-
       foreach (var days in list)
       {
+
         weekdays_Id = days.Id;
       }
-      var parameter1 = new { employeeId = employees_id, DaysId = weekdays_Id };
-      connection.Execute(@"insert into workschedule values(@employeeId, @DaysId)", parameter1);
+      var param = new { days = weekdays_Id };
+      var sql2 = @"select count(*) from workschedule where weekdays_id = @days";
+      var results = connection.QuerySingle(sql2, param);
+      if (results.count < 3)
+      {
+        Console.WriteLine(results);
+        var parameter1 = new { employeeId = employees_id, DaysId = weekdays_Id };
+        connection.Execute(@"insert into workschedule values(@employeeId, @DaysId)", parameter1);
+        message = "You have successfully scheduled your days";
+      }
+      else
+      {
+        message = param + "is full";
+      }
+
     }
+    return message;
+
+  }
+
+
+
+  public List<string> GetWorkingEmployees()
+  {
+    var sql = @"select firstname, weekday
+    from employees
+    inner join workschedule
+    on employees.id = employees_id
+    inner join weekdays
+    on weekdays.id = weekdays_id 
+    group by 
+    firstname, weekday
+    ";
+    var list = connection.Query<DayOfTheWeek>(sql);
+    foreach (var employee in list)
+    {
+      employees.Add(employee.FirstName!);
+    }
+
+    return employees;
 
   }
 
   public Dictionary<string, List<string>> GetShiftOfWorkingEmployees()
   {
-    using var connection = new NpgsqlConnection(connectionString);
-    connection.Open();
-
     //joining the tables
     var sql = @"select firstname, weekday
     from employees
@@ -78,13 +119,12 @@ public class WaiterAvailability : IWaiterAvailability
     Dictionary<string, List<string>> workingDays = new Dictionary<string, List<string>>() { { "Monday", monday }, { "Tuesday", tuesday }, { "Wednesday", wednesday }, { "Thursday", thursday }, { "Friday", friday }, { "Saturday", saturday }, { "Sunday", sunday } };
 
 
-
     foreach (var item in list)
     {
       if (item.WeekDay == "Monday")
       {
         monday.Add(item.FirstName!);
-        workingDays[item.WeekDay] = monday;
+        workingDays[item.WeekDay!] = monday;
       }
       else if (item.WeekDay == "Tuesday")
       {
@@ -117,27 +157,32 @@ public class WaiterAvailability : IWaiterAvailability
         workingDays[item.WeekDay] = sunday;
       }
     }
-    Console.WriteLine(workingDays);
     return workingDays;
 
   }
 
-  public List<string> GetWeekDays(string firstName)
+  public Dictionary<string, List<string>> WorkingEmployees()
   {
-    using var connection = new NpgsqlConnection(connectionString);
-    connection.Open();
+    //GetShiftOfWorkingEmployees();
+    foreach (var item in GetShiftOfWorkingEmployees())
+    {
+      workingEmployees.Add(item.Key, item.Value);
+    }
 
+    return workingEmployees;
+  }
+
+  public List<string> WeekDays(string firstName)
+  {
     var sql = @"select weekday, firstname
     from employees
     inner join workschedule
     on employees.id = employees_id
     inner join weekdays
     on weekdays.id = weekdays_id 
-    
     ";
 
     var list = connection.Query<DayOfTheWeek>(sql);
-
     daysSelected.Clear();
     foreach (var item in list)
     {
@@ -150,51 +195,99 @@ public class WaiterAvailability : IWaiterAvailability
 
     return daysSelected;
   }
-
-  public void UpdateWorkingDays(string firstName)
+  public List<string> GetWeekDays()
   {
-    using var connection = new NpgsqlConnection(connectionString);
-    connection.Open();
+    return daysSelected;
+  }
 
-    var parameters = new { UserName = firstName };
+
+  public string UpdateWorkingDays(string firstName, List<string> selectedDays)
+  {
+
+    string message = "";
+    List<int> day1 = new List<int>();
+
+    var name = new { UserName = firstName };
 
     var sql = @"select count (*) from employees where firstname = @UserName;";
-    var result = connection.QueryFirst(sql, parameters);
+    var result = connection.QueryFirst(sql, name);
 
     int employee_id = 0;
     if (result.count == 1)
     {
-      var rows = connection.Query<Employees>(@"select * from employees where firstname = @UserName ", parameters);
+      var rows = connection.Query<Employees>(@"select * from employees where firstname = @UserName ", name);
 
       foreach (var id in rows)
       {
         employee_id = id.Id;
       }
 
-      var parameter1 = new { employeeId = employee_id };
-      connection.Execute(@"delete from workschedule where employees_id = @employeeId", parameter1);
+    }
+
+    int weekdays_Id = 0;
+
+    foreach (var day in selectedDays)
+    {
+      var days = new { UserDays = day };
+
+      var list = @"select count(*) from weekdays where weekday = @UserDays";
+      var res = connection.QueryFirst(list, days);
+
+      if (res.count == 1)
+      {
+        var weekday = connection.Query<Shifts>(@"select * from weekdays where weekday = @UserDays order by id", days);
+
+        foreach (var item in weekday)
+        {
+          day1.Add(item.Id);
+        }
+      }
 
     }
 
+    var parameter2 = new { employeeId = employee_id };
+
+    var sql1 = @"select count(*) from workschedule where employees_id = @employeeId;";
+
+    var results = connection.QueryFirst(sql1, parameter2);
+
+    if (results.count > 1)
+    {
+      connection.Execute(@"delete from workschedule where employees_id = @employeeId", parameter2);
+      foreach (var item in day1)
+      {
+        weekdays_Id = item;
+        var parameter1 = new { employee1Id = employee_id, Days1Id = weekdays_Id };
+        connection.Execute(@"insert into workschedule values(@employee1Id, @Days1Id)", parameter1);
+
+        message = "You have updated your days";
+
+      }
+
+    }
+    else
+    {
+      foreach (var items in day1)
+      {
+        weekdays_Id = items;
+        var param = new { employeeId = employee_id, DaysId = weekdays_Id };
+        connection.Execute(@"insert into workschedule values(@employeeId, @DaysId)", param);
+      }
+    }
+
+    return message;
+
   }
-
-
   public void ResetData()
   {
-    using var connection = new NpgsqlConnection(connectionString);
-    connection.Open();
-    var list = connection.Query<DayOfTheWeek>(@"delete from workschedule");
+    var list = connection.Query<DayOfTheWeek>(@"truncate table workschedule");
   }
 
 
-
-
-
-
-
-
-
-
+  public string Message()
+  {
+    return "Your days have been updated !!";
+  }
 
 
 

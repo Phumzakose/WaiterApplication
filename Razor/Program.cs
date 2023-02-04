@@ -3,7 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<IWaiterAvailability, WaiterAvailability>();
+builder.Services.AddSingleton<IWaiterAvailability, WaiterAvailability>(x => new WaiterAvailability(builder.Configuration.GetConnectionString("client")));
 
 var app = builder.Build();
 

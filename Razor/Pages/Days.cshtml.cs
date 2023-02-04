@@ -6,13 +6,13 @@ namespace Razor.Pages
 {
   public class DaysModel : PageModel
   {
-    private IWaiterAvailability _waiters;
+    private IWaiterAvailability _waiter;
     private readonly ILogger<IndexModel> _logger;
 
     public DaysModel(ILogger<IndexModel> logger, IWaiterAvailability getWorkingDays)
     {
       _logger = logger;
-      _waiters = getWorkingDays;
+      _waiter = getWorkingDays;
     }
 
 
@@ -21,24 +21,37 @@ namespace Razor.Pages
 
     [BindProperty]
     public List<string> Day { get; set; }
+
+    [BindProperty]
+    public Dictionary<string, List<string>> WorkingEmployees { get; set; }
     [BindProperty]
     public string Handler { get; set; }
 
 
 
-
     public void OnGet()
     {
-      Day = _waiters.GetWeekDays(Data.FirstName!);
+      Day = _waiter.WeekDays(Data.FirstName!);
+      WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
 
     }
 
-    public void OnPostEnter()
+    public void OnPostSubmit()
     {
-      if (Handler == "Enter")
-      {
-        Day = _waiters.GetWeekDays(Data.FirstName!);
-      }
+      _waiter.AddingSelectedDays(Data.FirstName!, Day);
+      WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
+      TempData["AlertMessage"] = "Your days have been submitted successfully..!";
+
+
+    }
+
+    public void OnPostUpdate(string name)
+    {
+
+      _waiter.UpdateWorkingDays(Data.FirstName!, Day);
+      WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
+      TempData["AlertMessage"] = "Your days have been updated successfully..!";
+
     }
   }
 }

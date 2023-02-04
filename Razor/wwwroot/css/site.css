@@ -15,16 +15,47 @@ html {
 
 body {
   margin-bottom: 60px;
-  background-color: #e1d1bb;
+  background-color: #847072;
+}
+.card {
+  margin-top: 50px;
+}
+.nav-item {
+  font-family: sans-serif;
+  color: #3d313f;
+  font-weight: bold;
+}
+.navbar-brand {
+  font-family: sans-serif;
+  color: #3d313f;
+  font-weight: bold;
+}
+.border-top {
+  font-family: sans-serif;
+  color: #3d313f;
+  font-weight: bold;
 }
 h1 {
   margin-bottom: 60px;
-  margin-top: 50px;
+  margin-top: 40px;
+  color: white;
+  font-weight: bold;
+  font-family: serif;
+}
+h2 {
+  margin-bottom: 30px;
+  margin-top: 40px;
+  color: #3d313f;
+  font-weight: bold;
+  font-family: serif;
 }
 
 .form-check {
   margin-top: 30px;
   font-size: 24px;
+  color: #3d313f;
+  font-weight: 400;
+  font-family: serif;
 }
 .form-check-label {
   padding-right: 300px;
@@ -32,10 +63,35 @@ h1 {
 }
 
 .checkbox {
-  padding-left: 400px;
-  margin-bottom: 60px;
+  padding-left: 450px;
+  /* margin-bottom: 30px; */
 }
 .button {
   padding-right: 100px;
-  margin-bottom: 70px;
+  margin-top: 50px;
+  margin-bottom: 40px;
+}
+.table1 {
+  margin-bottom: 50px;
+
+  font-family: serif;
+  font-size: 20px;
+}
+.updatebtn {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.background-image {
+  width: 1000px;
+  height: 500px;
+}
+.btns button {
+  margin-right: 200px;
+  /* width: 150px; */
+  margin-left: auto;
+}
+.btns {
+  margin-top: 60px;
+  margin-bottom: 40px;
+  margin-left: 150px;
 }

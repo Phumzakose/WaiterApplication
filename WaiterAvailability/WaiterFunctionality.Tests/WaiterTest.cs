@@ -1,47 +1,71 @@
-namespace WaiterFunctionality.Tests;
 using WaiterFunctionality;
+using Npgsql;
+using Dapper;
+namespace WaiterFunctionality.Tests;
 
-public class WaiterTest
+
+public class WaiterTest : IDisposable
 {
-  WaiterAvailability waiter = new WaiterAvailability();
+
+  static string connectionString = "Server=tiny.db.elephantsql.com ;Port=5432;Database=rjyxyjew;UserId=rjyxyjew;Password=T0xPrO3GmqOjoDyeCqz8q7H6FfmagVA8";
+
+  IWaiterAvailability waiter = new WaiterAvailability(connectionString);
+
+
+
+  public WaiterTest()
+  {
+    // ensure all the waiters are in the database
+
+    // run the database script in the remote database
+
+    var sql = File.ReadAllText("./sql/data.sql");
+
+    // Console.WriteLine(sql);
+
+    using (var connection = new NpgsqlConnection(connectionString))
+    {
+      connection.Execute(sql);
+    }
+
+  }
+
+
+  public void Dispose()
+  {
+    // Console.WriteLine("... done!");
+  }
+
+
+
   [Fact]
   public void ItShouldBeAbleToRetunSelectedDays()
   {
-    List<string> days = new List<string>() { "Monday", "Wednesday", "Friday" };
 
 
-    Assert.Equal(waiter.daysSelected, waiter.GetWeekDays("Lulu"));
-
-  }
-
-  [Fact]
-  public void ItShouldBeAbleToAddTheEmployeeWithTheWorkingDays()
-  {
-    List<string> days1 = new List<string>() { "Monday", "Wednesday", "Friday" };
-    waiter.AddingSelectDays("Bongi", days1);
-    List<string> days2 = new List<string>() { "Monday", "Tuesday", "Thursday" };
-    waiter.AddingSelectDays("Xolani", days2);
-    List<string> days3 = new List<string>() { "Thursday", "Friday", "Saturday" };
-    waiter.AddingSelectDays("Thembisa", days3);
-    List<string> days4 = new List<string>() { "Friday", "Saturday", "Sunday" };
-    waiter.AddingSelectDays("Lulu", days4);
-
-    Assert.Equal(waiter.GetShiftOfWorkingEmployees(), waiter.GetShiftOfWorkingEmployees());
+    Assert.Equal(waiter.GetWeekDays(), waiter.WeekDays("Bongi"));
 
   }
 
   [Fact]
-  public void ItShouldBeAbleToGetTheShiftsOfTheEmployees()
+  public void ItShouldBeAbleToReturnAllWorkingEmployeesAndDays()
   {
-    List<string> days1 = new List<string>() { "Monday", "Wednesday", "Friday" };
-    waiter.AddingSelectDays("Bongi", days1);
-    List<string> days2 = new List<string>() { "Monday", "Tuesday", "Thursday" };
-    waiter.AddingSelectDays("Xolani", days2);
-    List<string> days3 = new List<string>() { "Thursday", "Friday", "Saturday" };
-    waiter.AddingSelectDays("Thembisa", days3);
 
-
-
+    Assert.Equal(waiter.WorkingEmployees(), waiter.GetShiftOfWorkingEmployees());
 
   }
+  [Fact]
+  public void ItShouldBeAbleToUpdateTheWorkingDays()
+  {
+    List<string> days = new List<string>() { "Monday", "Tuesday", "Wednesday" };
+    waiter.AddingSelectedDays("Lulu", days);
+    List<string> day = new List<string>() { "Monday", "Tuesday", "Friday" };
+
+    Assert.Equal("You have updated your days", waiter.UpdateWorkingDays("Lulu", day));
+
+  }
+
+
+
+
 }

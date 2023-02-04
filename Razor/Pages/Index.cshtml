@@ -5,99 +5,57 @@
 }
 
 <div class="text-center">
-    @* < class="card" style="background-color: #B58451;"> *@
-        <h1 class="display-4">SCHEDULE YOUR WORKING DAYS</h1> 
+    @* <div class="card" style="background-color: #DCC1B0;"> *@
 
-        <form method="post">
-            <div class="form-check">
-                <input name="FirstName" type="hidden"  value="@Model.Data.FirstName" />
-                
-                <div class="checkbox">
+    <h1 class="display-4">WELCOME TO START YOUR DAY COFFEE SHOP</h1>
+        <img class="background-image" src= "~/lib/images/pngtree-simple-brown-wooden-board-coffee-drink-shop-home-background-image_152845.jpg"/>
+        @* <form method="post">
+
+            <input name="FirstName" type="hidden"  value="@Model.Data.FirstName" />
+            <div class="checkbox">
+          
+                @foreach (var item in @Model.WorkingEmployees)
+                {
+                    @if(item.Value.Contains(@Model.Data.FirstName!))
+                 {
                     <div class="form-check ">
-                <input name="Day" class="form-check-input" type="checkbox" value="Monday" id="flexCheckDefault">
-                 <label class="form-check-label" for="flexCheckDefault">Monday</label>
-               
-                </div>
-                <div class="form-check">
-                    <input name="Day" class="form-check-input" type="checkbox" value="Tuesday" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">Tuesday</label>
-               
-                </div>
-                <div class="form-check ">
-                    <input  name="Day" class="form-check-input" type="checkbox" value="Wednesday" id="flexCheckDefault">
-               <label  class="form-check-label" for="flexCheckDefault">Wednesday</label>
-                
-                </div>
-                <div class="form-check ">
-                    <input  name="Day" class="form-check-input" type="checkbox" value="Thursday" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">Thursday</label>
-                
-                </div>
-                <div class="form-check ">
-                    <input  name="Day" class="form-check-input" type="checkbox" value="Friday" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">Friday</label>
-                
-                </div>
-                <div class="form-check ">
-                    <input  name="Day" class="form-check-input" type="checkbox" value="Saturday" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">Saturday</label>
-                
-                </div>
-                <div class="form-check ">
-                    <input  name="Day" class="form-check-input" type="checkbox" value="Sunday" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">Sunday</label>
-                
-                </div>
-
-                </div>
-                
-                <div class="button">
-                <button asp-page-handler ="submit" class="btn btn-primary btn-lg" type="submit" >Submit</button>
-                @* <button asp-page-handler ="Enter" class="btn btn-primary btn-lg" type="Enter" >Enter</button> *@
-                
-                </div>
-
+                <input name="Day" class="form-check-input" type="checkbox" checked value="@item.Key" /> 
+                <label class="form-check-label" >@item.Key</label> 
+                    </div>
                  
+                    
+                }
+                else
+                {
+                     <div class="form-check ">
+                        <input name="Day" class="form-check-input" type="checkbox" value="@item.Key" /> 
+                        <label class="form-check-label" >@item.Key</label> 
+                    </div>
+                }
+                }
+                   
             </div>
-        </form>
+              @if(TempData["AlertMessage"] != null)
+                {
+                    <div class="alert alert-success">
+                        <strong>@TempData["AlertMessage"]</strong>
+                    </div>
 
-        
- 
-         @if(Model.Data.FirstName != null && Model.Day != null)
-         {
-                <h2> @Model.Data.FirstName here are your working days</h2>
+                }       
+                    <div class="button">
+                        <button asp-page-handler ="submit" class="btn btn-primary btn-lg" type="submit" >Submit</button>
+                                
+                    </div>
+                    <div class="updatebtn">
+                    <form asp-page-handler="update" method="post">
+                        <input asp-for="Data.FirstName" type="hidden" asp-route-name="name" value="@Model.Data.FirstName" />
+                        <button asp-page-handler="update" asp-route-name="name" class="btn1, btn btn-danger ">Update</button>
+                    </form> 
 
-                <table class="table table-success table-striped">
-                        <tr>
-                        <th>Weekdays</th> 
-                        <th>Selected</th>
-                        </tr>
-                    @foreach (var day in @Model.Day)
-                    {
-                    <tr>
-                        <td>@day </td>
-                        <td><input name="Day" type="checkbox" value="@day" id="flexCheckChecked" checked /><br /></td>
-                    </tr>
-                    }
-                </table>
-                <button asp-page-handler ="submit" class="btn btn-primary btn-lg" type="submit" >Update</button>
-                  <form asp-page-handler="remove" method="post">
-                    <input asp-for="Data.FirstName" type="hidden" asp-route-name="name" value="@Model.Data.FirstName" />
-                    <button asp-page-handler="update" asp-route-name="name" class="btn1, btn btn-danger ">Update</button>
-                </form> 
-            
-                
-
-        }
-
-      
-
-           
-
-       
-
-
-
+                    </div> 
     
+        </form>
+  
+    </div>  *@
 
 </div>
