@@ -8,29 +8,27 @@
 
  <h2>@Model.Data.FirstName?.ToUpper() SCHEDULE YOUR WORKING DAYS</h2>
      <form method="post">
-      
-
             <input name="FirstName" type="hidden"  value="@Model.Data.FirstName" />
             <div class="checkbox">
+                 
                 @foreach (var item in @Model.WorkingEmployees)
                 {
                     @if(item.Value.Contains(@Model.Data.FirstName!))
-                {
-                    <div class="form-check ">
-                <input name="Day" class="form-check-input" type="checkbox" checked value="@item.Key" /> 
-                <label class="form-check-label" >@item.Key</label> 
-                    </div>
+                    {
+                        <div class="form-check ">
+                    <input name="Day" class="form-check-input" type="checkbox" checked value="@item.Key" /> 
+                    <label class="form-check-label" >@item.Key</label> 
+                        </div>
+                        
+                    }
+                    else
+                    {
+                        <div class="form-check ">
+                            <input name="Day" class="form-check-input" type="checkbox" value="@item.Key" /> 
+                            <label class="form-check-label" >@item.Key</label> 
+                        </div>
                     
-                }
-                else
-                {
-                 
-                    <div class="form-check ">
-                        <input name="Day" class="form-check-input" type="checkbox" value="@item.Key" /> 
-                        <label class="form-check-label" >@item.Key</label> 
-                    </div>
-                   
-                }
+                    }
                 }
 
                     

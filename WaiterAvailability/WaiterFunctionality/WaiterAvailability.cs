@@ -16,15 +16,9 @@ public class WaiterAvailability : IWaiterAvailability
   List<string> employees = new List<string>();
 
   Dictionary<string, List<string>> workingEmployees = new Dictionary<string, List<string>>();
-  List<string> newDays = new List<string>();
 
-
-
-
-
-  public string AddingSelectedDays(string userName, List<string> selectedDays)
+  public void AddingSelectedDays(string userName, List<string> selectedDays)
   {
-    string message = "";
     var parameters = new { UserName = userName };
 
     var sql = @"select count (*) from employees where firstname = @UserName;";
@@ -53,25 +47,52 @@ public class WaiterAvailability : IWaiterAvailability
         weekdays_Id = days.Id;
       }
       var param = new { days = weekdays_Id };
+      Console.WriteLine(param);
       var sql2 = @"select count(*) from workschedule where weekdays_id = @days";
       var results = connection.QuerySingle(sql2, param);
       if (results.count < 3)
       {
-        Console.WriteLine(results);
         var parameter1 = new { employeeId = employees_id, DaysId = weekdays_Id };
         connection.Execute(@"insert into workschedule values(@employeeId, @DaysId)", parameter1);
-        message = "You have successfully scheduled your days";
-      }
-      else
-      {
-        message = param + "is full";
       }
 
     }
-    return message;
+
 
   }
 
+  public string Count(List<string> selectedDays)
+  {
+    string message = "";
+    foreach (var day in selectedDays)
+    {
+      var parameter = new { UserDays = day };
+      var list = connection.Query<Shifts>(@"select * from weekdays where weekday = @UserDays order by id", parameter);
+
+      int weekdays_Id = 0;
+      foreach (var days in list)
+      {
+
+        weekdays_Id = days.Id;
+      }
+
+      var param = new { days = weekdays_Id };
+      var sql2 = @"select count(*) from workschedule where weekdays_id = @days";
+      var results = connection.QuerySingle(sql2, param);
+
+      if (results.count < 3)
+      {
+        message = "You have successfully added your days";
+      }
+      else if (results.count == 3)
+      {
+        message = param + " " + "is fully booked";
+      }
+    }
+
+    return message;
+
+  }
 
 
   public List<string> GetWorkingEmployees()
@@ -284,10 +305,6 @@ public class WaiterAvailability : IWaiterAvailability
   }
 
 
-  public string Message()
-  {
-    return "Your days have been updated !!";
-  }
 
 
 

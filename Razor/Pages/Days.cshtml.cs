@@ -27,6 +27,8 @@ namespace Razor.Pages
     [BindProperty]
     public string Handler { get; set; }
 
+    public string Count { get; set; }
+
 
 
     public void OnGet()
@@ -40,8 +42,9 @@ namespace Razor.Pages
     {
       _waiter.AddingSelectedDays(Data.FirstName!, Day);
       WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
+      Count = _waiter.Count(Day);
       TempData["AlertMessage"] = "Your days have been submitted successfully..!";
-
+      TempData["ErrorMessage"] = "The days you selected are full";
 
     }
 
