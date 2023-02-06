@@ -46,15 +46,16 @@ public class WaiterAvailability : IWaiterAvailability
 
         weekdays_Id = days.Id;
       }
-      var param = new { days = weekdays_Id };
-      Console.WriteLine(param);
-      var sql2 = @"select count(*) from workschedule where weekdays_id = @days";
-      var results = connection.QuerySingle(sql2, param);
-      if (results.count < 3)
-      {
-        var parameter1 = new { employeeId = employees_id, DaysId = weekdays_Id };
-        connection.Execute(@"insert into workschedule values(@employeeId, @DaysId)", parameter1);
-      }
+      // var param = new { days = weekdays_Id };
+      // Console.WriteLine(param);
+      // var sql2 = @"select count(*) from workschedule where weekdays_id = @days";
+      // var results = connection.QuerySingle(sql2, param);
+      // if (results.count < 3)
+      // {
+      var parameter1 = new { employeeId = employees_id, DaysId = weekdays_Id };
+      connection.Execute(@"insert into workschedule values(@employeeId, @DaysId)", parameter1);
+
+      // }
 
     }
 

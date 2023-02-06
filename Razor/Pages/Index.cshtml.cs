@@ -48,6 +48,7 @@ public class IndexModel : PageModel
   {
     _waiter.UpdateWorkingDays(Data.FirstName!, Day);
     WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
+    TempData["AlertMessage"] = "Your days have been updated successfully..!";
 
 
   }

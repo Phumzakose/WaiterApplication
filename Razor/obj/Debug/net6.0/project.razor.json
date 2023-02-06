@@ -18399,11 +18399,6 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "/home/codex/c#projects/WaiterApplication/Razor/Pages/Days.cshtml",
-      "TargetPath": "Pages\\Days.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "/home/codex/c#projects/WaiterApplication/Razor/Pages/Shared/_Layout.cshtml",
       "TargetPath": "Pages\\Shared\\_Layout.cshtml",
       "FileKind": "mvc"
