@@ -12,7 +12,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     services:
       postgres:
         image: postgres:latest
@@ -28,10 +28,6 @@ jobs:
             --health-interval 10s
             --health-timeout 5s
             --health-retries 5
-
-              
-              
-      
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -43,10 +39,8 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: create postgresql tables
-      run: |
-        PGPASSWORD=counter123 psql -h localhost -U counter -d counter_app -a -f ./WaiterAvailability/WaiterFunctionality/sql/table.sql 
+      run: PGPASSWORD=counter123 psql -h localhost -U counter -d counter_app -a -f ./WaiterAvailability/WaiterFunctionality/sql/table.sql
     - name: Test
       run: dotnet test --no-build --verbosity normal
       env:
-       connectionString: Host=localhost;Username=counter;Password=counter123;Database=counter_app
-
+        PSQLConnectionString: Host=localhost;Username=counter;Password=counter123;Database=counter_app
