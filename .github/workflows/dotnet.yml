@@ -42,7 +42,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: create postgresql tables
-      run: PGPASSWORD=waiter123 psql -h localhost -U waiter -d waiter_application 
+      run: PGPASSWORD=waiter123 psql -h localhost -U waiter -d waiter_application -a -f ./WaiterAvailability/WaiterFunctionality/sql/table.sql 
     - name: Test
       run: dotnet test --no-build --verbosity normal
       env:
