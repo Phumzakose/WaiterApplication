@@ -13,7 +13,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-      services:
+    
+    services:
       postgres:
         image: postgres:latest
         env: 
@@ -28,15 +29,11 @@ jobs:
             --health-interval 10s
             --health-timeout 5s
             --health-retries 5
-            
-            
-  - name: create postgresql tables
-      run: PGPASSWORD=T0xPrO3GmqOjoDyeCqz8q7H6FfmagVA8 psql -s tiny.db.elephantsql.com -U rjyxyjew -d rjyxyjew -a -f ./WaiterFunctionality/sql/table.sql
-  - name: Test
-      run: dotnet test --no-build --verbosity normal
-      env:
-        connectionString: "Server=tiny.db.elephantsql.com ;Port=5432;Database=rjyxyjew;UserId=rjyxyjew;Password=T0xPrO3GmqOjoDyeCqz8q7H6FfmagVA8";
+              
+              - name: create postgresql tables
+                  run: PGPASSWORD=T0xPrO3GmqOjoDyeCqz8q7H6FfmagVA8 psql -s tiny.db.elephantsql.com -U rjyxyjew -d rjyxyjew -a -f ./WaiterFunctionality/sql/table.sql
 
+      
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -49,3 +46,6 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      env:
+        connectionString: "Server=tiny.db.elephantsql.com ;Port=5432;Database=rjyxyjew;UserId=rjyxyjew;Password=T0xPrO3GmqOjoDyeCqz8q7H6FfmagVA8"
+
