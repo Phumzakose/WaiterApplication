@@ -1,0 +1,51 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+      services:
+      postgres:
+        image: postgres:latest
+        env: 
+          POSTGRES_USER: rjyxyjew
+          POSTGRES_PASSWORD: T0xPrO3GmqOjoDyeCqz8q7H6FfmagVA8
+          POSTGRES_DB: rjyxyjew
+        ports:
+        - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+            
+            
+  - name: create postgresql tables
+      run: PGPASSWORD=T0xPrO3GmqOjoDyeCqz8q7H6FfmagVA8 psql -s tiny.db.elephantsql.com -U rjyxyjew -d rjyxyjew -a -f ./WaiterFunctionality/sql/table.sql
+  - name: Test
+      run: dotnet test --no-build --verbosity normal
+      env:
+        connectionString: "Server=tiny.db.elephantsql.com ;Port=5432;Database=rjyxyjew;UserId=rjyxyjew;Password=T0xPrO3GmqOjoDyeCqz8q7H6FfmagVA8";
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
