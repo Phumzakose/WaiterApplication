@@ -1,6 +1,5 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: .NET
 
 on:
@@ -32,7 +31,6 @@ jobs:
               
               - name: create postgresql tables
                   run: PGPASSWORD=run: PGPASSWORD=waiter123 psql -h localhost -U waiter -d waiter_application -a -f ./WaiterFunctionality/sql/table.sql
-
       
     steps:
     - uses: actions/checkout@v3
@@ -47,5 +45,5 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
       env:
-       connectionString: Host=localhost;Username=waiter;Password=waiter123;Database= waiter_application
+       connectionString: Host=localhost;Username=waiter;Password=waiter123;Database= waiter_applicationn
 
