@@ -45,5 +45,5 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
       env:
-       connectionString: Host=localhost;Username=waiter;Password=waiter123;Database= waiter_applicationn
+       connectionString: Host=localhost;Username=waiter;Password=waiter123;Database=waiter_applicationn
 
