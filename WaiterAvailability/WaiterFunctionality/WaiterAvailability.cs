@@ -62,40 +62,6 @@ public class WaiterAvailability : IWaiterAvailability
 
   }
 
-  public string Count(List<string> selectedDays)
-  {
-    string message = "";
-    foreach (var day in selectedDays)
-    {
-      var parameter = new { UserDays = day };
-      var list = connection.Query<Shifts>(@"select * from weekdays where weekday = @UserDays order by id", parameter);
-
-      int weekdays_Id = 0;
-      foreach (var days in list)
-      {
-
-        weekdays_Id = days.Id;
-      }
-
-      var param = new { days = weekdays_Id };
-      var sql2 = @"select count(*) from workschedule where weekdays_id = @days";
-      var results = connection.QuerySingle(sql2, param);
-
-      if (results.count < 3)
-      {
-        message = "You have successfully added your days";
-      }
-      else if (results.count == 3)
-      {
-        message = param + " " + "is fully booked";
-      }
-    }
-
-    return message;
-
-  }
-
-
   public List<string> GetWorkingEmployees()
   {
     var sql = @"select firstname, weekday
@@ -300,9 +266,11 @@ public class WaiterAvailability : IWaiterAvailability
     return message;
 
   }
-  public void ResetData()
+  public string ResetData()
   {
     var list = connection.Query<DayOfTheWeek>(@"truncate table workschedule");
+
+    return "The schedule is cleared";
   }
 
 

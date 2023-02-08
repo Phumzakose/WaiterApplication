@@ -9,8 +9,8 @@ public interface IWaiterAvailability
   string UpdateWorkingDays(string firstName, List<string> selectedDays);
   List<string> GetWeekDays();
   List<string> GetWorkingEmployees();
-  void ResetData();
-  string Count(List<string> days);
+  String ResetData();
+
 
 
 
