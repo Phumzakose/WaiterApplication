@@ -1,4 +1,7 @@
 # WaiterApplication
+
+[![.NET](https://github.com/Phumzakose/WaiterApplication/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Phumzakose/WaiterApplication/actions/workflows/dotnet.yml)
+
 * This is a Waiter Application where waiters select the days they want to work on
 * Waiters can also update the days they have selected previously
 * The manager can view the working employees and can also clear the waiters on the schedule
