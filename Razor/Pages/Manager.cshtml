@@ -4,34 +4,52 @@
   ViewData["Title"] = "Days page";
 }
 <div class="text-center">
-  <div class="card" style="background-color: #DCC1B0;">
       
-      <h2 class="display-4">WEEKLY SCHEDULE</h2> 
+  @* <div class="card1" style="background-color: #DCC1B0;"> *@
+      <h1 class="display-4">WEEKLY SCHEDULE</h1> 
     <div class="table1">
-      <table class="table table-striped">
+      <table class="table table-hover">
+          <tr>
+            <th>Days Of The Week</th>
+            <th>Employees</th>
+          </tr>
         @foreach (var item in @Model.WorkingEmployees)
         {
           <tr>
-            <th>@item.Key</th>
+            <td>@item.Key</td>
+              <td>
+                <ol>
             @foreach (var days in item.Value)
             {
-              <td>@days</td>
+                  <li>
+                   @days 
+                  </li>
             }
+                </ol>
+               
+                </td>
           </tr>
         }
       </table>  
 
     </div>
+     @if(TempData["AlertMessage"] != null)
+                {
+                    <div class="alert alert-success">
+                        <strong>@TempData["AlertMessage"]</strong>
+                    </div>
+
+                }
 
     <div class="button">
         <form asp-page-handler="clear" method="post">
               
-              <button asp-page-handler="clear" asp-route-name="name" class="btn1, btn btn-danger ">Reset</button>
+              <button asp-page-handler="clear" asp-route-name="name" class="btn1, btn btn-danger btn-lg ">Reset</button>
         </form> 
     </div>
 
 
-  </div>
+  @* </div> *@
    
 
 </div>

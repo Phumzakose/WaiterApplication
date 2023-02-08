@@ -37,8 +37,8 @@ body {
   font-weight: bold;
 }
 h1 {
-  margin-bottom: 60px;
-  margin-top: 90px;
+  margin-bottom: 30px;
+  margin-top: 30px;
   color: white;
   font-weight: bold;
   font-family: serif;
@@ -53,14 +53,12 @@ h2 {
 }
 
 .form-check {
-  /* margin-top: 30px; */
   font-size: 24px;
   color: #3d313f;
   font-weight: 400;
   font-family: serif;
 }
 .form-check-label {
-  /* padding-right: 300px; */
   text-align: justify;
 }
 
@@ -69,36 +67,32 @@ h2 {
   padding-right: 300px;
 }
 .button {
-  padding-right: 10px;
-  margin-top: 50px;
-  margin-bottom: 40px;
+  /* margin-top: 40px; */
 }
 .table1 {
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   font-family: serif;
   font-size: 20px;
-}
-.updatebtn {
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-.background-image {
-  width: 1000px;
-  height: 500px;
-}
-.btns button {
-  margin-right: 300px;
-  /* width: 150px; */
-  margin-left: auto;
-}
-.btns {
-  margin-top: 60px;
-  /* margin-bottom: 40px; */
-  margin-left: 100px;
+  width: 900px;
+  margin-left: 200px;
 }
 #colorPicker {
   margin-top: 10px;
 }
-#greenstar {
-  color: #32cd32;
+
+ol {
+  list-style: none;
+}
+
+.table table-striped {
+  width: 100%;
+  text-align: center;
+  font-size: 25px;
+}
+.table {
+  background-color: #dcc1b0;
+  /* margin-bottom: 50px; */
+  font-family: serif;
+  width: 900px;
+  border-color: black;
 }

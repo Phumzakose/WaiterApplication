@@ -27,6 +27,8 @@ public class IndexModel : PageModel
   [BindProperty]
   public Dictionary<string, List<string>> WorkingEmployees { get; set; }
 
+  public List<string> Days = new List<string>();
+
 
   public void OnGet()
   {
@@ -40,6 +42,7 @@ public class IndexModel : PageModel
   {
     _waiter.AddingSelectedDays(Data.FirstName!, Day);
     WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
+    Days = _waiter.WeekDays(Data.FirstName!);
     TempData["AlertMessage"] = "Your days have been submitted successfully...!";
 
 
