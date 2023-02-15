@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WaiterFunctionality;
 
+
 namespace Razor.Pages;
 
 public class IndexModel : PageModel
 {
+  public const string SessionKeyName = "_Name";
   private IWaiterAvailability _waiter;
   private readonly ILogger<IndexModel> _logger;
 
@@ -14,49 +16,42 @@ public class IndexModel : PageModel
     _logger = logger;
     _waiter = waiter;
   }
-  [BindProperty(SupportsGet = true)]
-  public WorkingDays Data { get; set; }
 
   [BindProperty]
   public string FirstName { get; set; }
 
-  [BindProperty]
-  public List<string> Day { get; set; }
+  // [BindProperty]
+  // public WorkingDays Employee { get; set; }
 
-
-  [BindProperty]
-  public Dictionary<string, List<string>> WorkingEmployees { get; set; }
-
-  public List<string> Days = new List<string>();
-
+  public string name;
 
   public void OnGet()
   {
-
-    Day = _waiter.WeekDays(Data.FirstName!);
-    WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
-
+    HttpContext.Session.Clear();
   }
-
-  public void OnPostSubmit()
+  public IActionResult OnPost()
   {
-    _waiter.AddingSelectedDays(Data.FirstName!, Day);
-    WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
-    Days = _waiter.WeekDays(Data.FirstName!);
-    TempData["AlertMessage"] = "Your days have been submitted successfully...!";
+    name = _waiter.CheckName(FirstName);
+    if (name.Equals(FirstName))
+    {
+      HttpContext.Session.SetString(SessionKeyName, FirstName);
+      return RedirectToPage("Waiter");
+    }
+    else if (FirstName.Equals("Admin"))
+    {
+      HttpContext.Session.SetString(SessionKeyName, FirstName);
+      return RedirectToPage("Manager");
+    }
+    else if (!name.Equals(FirstName))
+    {
+      TempData["AlertMessage"] = "Invalid user !!";
+    }
 
+    FirstName = "";
+    ModelState.Clear();
+    return Page();
 
   }
-  public void OnPostUpdate()
-  {
-    _waiter.UpdateWorkingDays(Data.FirstName!, Day);
-    WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
-    TempData["AlertMessage"] = "Your days have been updated successfully..!";
-
-
-  }
-
-
 
 
 

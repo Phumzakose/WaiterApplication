@@ -10,6 +10,7 @@ public interface IWaiterAvailability
   List<string> GetWeekDays();
   List<string> GetWorkingEmployees();
   String ResetData();
+  string CheckName(string userName);
 
 
 

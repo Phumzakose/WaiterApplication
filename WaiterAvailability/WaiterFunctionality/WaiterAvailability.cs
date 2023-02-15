@@ -46,16 +46,9 @@ public class WaiterAvailability : IWaiterAvailability
 
         weekdays_Id = days.Id;
       }
-      // var param = new { days = weekdays_Id };
-      // Console.WriteLine(param);
-      // var sql2 = @"select count(*) from workschedule where weekdays_id = @days";
-      // var results = connection.QuerySingle(sql2, param);
-      // if (results.count < 3)
-      // {
+
       var parameter1 = new { employeeId = employees_id, DaysId = weekdays_Id };
       connection.Execute(@"insert into workschedule values(@employeeId, @DaysId)", parameter1);
-
-      // }
 
     }
 
@@ -151,7 +144,6 @@ public class WaiterAvailability : IWaiterAvailability
 
   public Dictionary<string, List<string>> WorkingEmployees()
   {
-    //GetShiftOfWorkingEmployees();
     foreach (var item in GetShiftOfWorkingEmployees())
     {
       workingEmployees.Add(item.Key, item.Value);
@@ -193,7 +185,7 @@ public class WaiterAvailability : IWaiterAvailability
   {
 
     string message = "";
-    List<int> day1 = new List<int>();
+    List<int> employeeDays = new List<int>();
 
     var name = new { UserName = firstName };
 
@@ -227,7 +219,7 @@ public class WaiterAvailability : IWaiterAvailability
 
         foreach (var item in weekday)
         {
-          day1.Add(item.Id);
+          employeeDays.Add(item.Id);
         }
       }
 
@@ -242,7 +234,7 @@ public class WaiterAvailability : IWaiterAvailability
     if (results.count > 1)
     {
       connection.Execute(@"delete from workschedule where employees_id = @employeeId", parameter2);
-      foreach (var item in day1)
+      foreach (var item in employeeDays)
       {
         weekdays_Id = item;
         var parameter1 = new { employee1Id = employee_id, Days1Id = weekdays_Id };
@@ -255,7 +247,7 @@ public class WaiterAvailability : IWaiterAvailability
     }
     else
     {
-      foreach (var items in day1)
+      foreach (var items in employeeDays)
       {
         weekdays_Id = items;
         var param = new { employeeId = employee_id, DaysId = weekdays_Id };
@@ -271,6 +263,55 @@ public class WaiterAvailability : IWaiterAvailability
     var list = connection.Query<DayOfTheWeek>(@"truncate table workschedule");
 
     return "The schedule is cleared";
+  }
+
+  public void RemoveWaiter(string waiter)
+  {
+    var parameter = new { userName = waiter };
+    var row = connection.QueryFirst<Employees>(@"select * from employees where firstname = @UserName ", parameter);
+    var employees_id = row.Id;
+
+    var param = new { employeeId = employees_id };
+    var sql = @"DELETE from workschedule where employees_id = @employeeId";
+    var list = connection.Query<DayOfTheWeek>(sql, param);
+    Console.WriteLine(list);
+
+
+  }
+  public string CheckName(string userName)
+  {
+    var parameters = new { UserName = userName };
+
+    var sql = @"select count (*) from employees where firstname = @UserName;";
+    var count = connection.QuerySingle<int>(sql, parameters);
+
+    if (count == 0)
+    {
+      return "Invalid user";
+    }
+    else
+    {
+      return userName;
+    }
+
+  }
+
+  public string GetWaiter(string waiter)
+  {
+    var parameters = new { UserName = waiter };
+
+    var sql = @"select count (*) from employees where firstname = @UserName;";
+    var count = connection.QuerySingle<int>(sql, parameters);
+
+    if (count == 0)
+    {
+      return "Invalid user";
+    }
+    else
+    {
+      return waiter;
+    }
+
   }
 
 

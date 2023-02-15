@@ -1,0 +1,127 @@
+﻿@page
+@using Microsoft.AspNetCore.Http
+@model WaiterModel
+@{
+    ViewData["Title"] = "Waiter page";
+}
+
+<div class="text-center">
+        <div class="box">
+        @if(@Model.GetWaiterName == null)
+        {
+            <h1 class="display-4">WELCOME SCHEDULE YOUR DAYS</h1>
+
+        }
+        else if(@Model.GetWaiterName != null)
+        {
+            <h1 class="display-4">@Model.GetWaiterName.ToUpper() SCHEDULE YOUR DAYS</h1>
+        }
+            <form method="post">
+                <input name="WaiterName" type="hidden"  value="@Model.WaiterName" />
+                <div class="table1">
+                <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Days Of The Week</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+              
+                    @foreach (var item in @Model.WorkingEmployees)
+                    {
+                        <tbody>
+
+                        <tr>
+                        
+                        @if(item.Value.Contains(@Model.GetWaiterName))
+                        {
+                            <td>
+                                <input name="Day" class="form-check-input" type="checkbox" checked value="@item.Key" /> 
+                            </td>
+                                    
+                            <td>
+                                <label class="form-check-label" >@item.Key</label>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                            <input name="Day" class="form-check-input" type="checkbox" value="@item.Key" /> 
+                            </td>
+                            <td>
+                            <label class="form-check-label" >@item.Key</label> 
+                            </td>     
+                        }
+                         @if(item.Value.Count() == 3)
+                        {
+                            <td>
+
+                        <input type="color" value="#32CD32" id="colorPicker" /> 
+                            </td>
+
+                        }
+                        else if(item.Value.Count() < 3)
+                        {
+                        <td>
+                            <input type="color" value="#fcbf49" id="colorPicker" />  
+
+                        </td>
+                        }
+                        else if(item.Value.Count() > 3)
+                        {
+                            <td>
+                            <input type="color" value="#FF0000" id="colorPicker" /> 
+
+                            </td>
+                        }
+                        </tr>
+                    
+                        </tbody>
+                    }
+
+                </div>
+                    
+            
+                </table>
+                @if(TempData["AlertMessage"] != null)
+                    {
+                        <div class="alert alert-success">
+                            <strong>@TempData["AlertMessage"]</strong>
+                        </div>
+
+                    }
+                            <div class="button">
+                          
+                                @if(@HttpContext.Session.GetString(SessionKeys.UserNameKey) != "Admin" )
+                                @if(@Model.Day.Count() < 1 && @HttpContext.Session.GetString(SessionKeys.UserNameKey) != null)
+                                {
+                                <button asp-page-handler ="submit" class="btn2 btn-primary btn-lg" type="submit" >Submit</button>
+                                @* <button class="btn btn-success btn-lg"  asp-page-handler="logout">Logout</button> *@
+                                
+                                }
+                                else{
+                                <button asp-page-handler="update" class="btn1 btn-success btn-lg">Update</button>
+                                 @* <button class="btn btn-success btn-lg"  asp-page-handler="logout">Logout</button> *@
+                                }
+                                else if(@HttpContext.Session.GetString(SessionKeys.UserNameKey) == "Admin")
+                                {
+                                    <div class="waiter-buttons">
+                                  <button asp-page-handler="update" class="btn1 btn-success btn-lg">Update</button>
+                                  @* <button asp-page-handler="back" asp-page="/Manager"  class="btn2 btn-danger btn-lg">Back</button>    *@
+
+                                    </div>
+                                }
+                                
+
+                                
+
+                            
+                            </div>
+
+                    </form> 
+        </div> 
+</div>
+        
+        
+

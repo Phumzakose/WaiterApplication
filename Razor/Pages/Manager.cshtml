@@ -1,17 +1,35 @@
 ﻿@page
+@using Microsoft.AspNetCore.Http
 @model Razor.Pages.ManagerModel
 @{
   ViewData["Title"] = "Days page";
 }
+
+
+
 <div class="text-center">
-      
-  @* <div class="card1" style="background-color: #DCC1B0;"> *@
-      <h1 class="display-4">WEEKLY SCHEDULE</h1> 
-    <div class="table1">
-      <table class="table table-hover">
+    <div class="box">
+
+
+      @if (!@Model.IsAdmin) {
+         <div class="blink_me "> 
+          <h1 class="display-4">Access denied</h1>
+          </div>
+ <div class="button">
+            
+    <button><a asp-page-handler="home" asp-page="/Index" >home</a></button>
+ 
+        </div>
+      }
+
+      else {
+
+      <h1 class="display-4">WEEKLY SCHEDULE</h1>
+      <table class="table table-striped">
           <tr>
             <th>Days Of The Week</th>
             <th>Employees</th>
+            
           </tr>
         @foreach (var item in @Model.WorkingEmployees)
         {
@@ -19,11 +37,13 @@
             <td>@item.Key</td>
               <td>
                 <ol>
-            @foreach (var days in item.Value)
+            @foreach (var employeeName in item.Value)
             {
-                  <li>
-                   @days 
-                  </li>
+              <form method="post">
+                  <input type="hidden" name="WaiterName" value="@employeeName">
+                  <input class="name" asp-page="Waiter" asp-page-handler="manager" type="submit" value="@employeeName" />
+              </form>
+
             }
                 </ol>
                
@@ -32,24 +52,23 @@
         }
       </table>  
 
+        @if(TempData["AlertMessage"] != null)
+                    {
+                        <div class="alert alert-success">
+                            <strong>@TempData["AlertMessage"]</strong>
+                        </div>
+
+                    }
+
+        <div class="button">
+            <form asp-page-handler="clear" method="post">
+                  
+                  <button class="btn3 btn-danger btn-lg"  asp-page-handler="clear" asp-route-name="name" >Clear</button>
+                  @* <button class="btn2 btn-primary btn-lg"  asp-page-handler="logout" >Logout</button> *@
+            </form> 
+        </div>
+      }
+          </div> 
     </div>
-     @if(TempData["AlertMessage"] != null)
-                {
-                    <div class="alert alert-success">
-                        <strong>@TempData["AlertMessage"]</strong>
-                    </div>
-
-                }
-
-    <div class="button">
-        <form asp-page-handler="clear" method="post">
-              
-              <button asp-page-handler="clear" asp-route-name="name" class="btn1, btn btn-danger btn-lg ">Reset</button>
-        </form> 
-    </div>
-
-
-  @* </div> *@
    
-
 </div>

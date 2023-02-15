@@ -1,156 +1,43 @@
 ﻿@page
+@using Microsoft.AspNetCore.Http
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <div class="card" style="background-color: #DCC1B0;">
-        @if(@Model.Data.FirstName != null)
-        {
-        <h2 class="display-4"> @Model.Data.FirstName.ToUpper() SCHEDULE YOUR DAYS</h2>
+
+  <div class="box">
+    
+
+@*            
+    <h1 class="display-4">WELCOME BACK !</h1> *@
+       <div class="form-box">
+
+          <h3>Login In Here</h3>
         <form method="post">
-            <input name="FirstName" type="hidden"  value="@Model.Data.FirstName" />
-            <div class="table1">
-                <table class="table table-striped">
-                    <thead>
-                     <tr>
-                        <th>Select</th>
-                        <th>Days Of The Week</th>
-                    </tr>
-                    </thead>
-                  
-                @foreach (var item in @Model.WorkingEmployees)
-                {
-                    <tbody>
+          <div class="waiter"> 
+            <label for="FirstName">Username </label>
+            <input name="FirstName" placeholder="Enter Username" type="text"  asp-for="@Model.FirstName"/>
+            <br>
+            @* <label for="Password">Password: </label>
+            <input placeholder="Enter Password" type="password"/>
+            <br> *@
 
-                    <tr>
-
-                    @if(item.Value.Contains(@Model.Data.FirstName!))
+            <div class="button">
+                @if(TempData["AlertMessage"] != null)
                     {
-                            <td>
-                    <input name="Day" class="form-check-input" type="checkbox" checked value="@item.Key" /> 
-
-                            </td>
-                            <td>
-
-                    <label class="form-check-label" >@item.Key</label>
-                            </td>
-                    }
-                    else
-                    {
-                            <td>
-                            <input name="Day" class="form-check-input" type="checkbox" value="@item.Key" /> 
-
-                            </td>
-                            <td>
-                            <label class="form-check-label" >@item.Key</label> 
-
-                            </td>     
-                    }
-                    </tr>
-                
-                    </tbody>
-                }
-             </table>
-            @* </div> *@
-              @if(TempData["AlertMessage"] != null)
-                {
-                    <div class="alert alert-success">
-                        <strong>@TempData["AlertMessage"]</strong>
-                    </div>
-
-                }
-                        <div class="button">
-
-                            @if(@Model.Day.Count() < 1)
-                            {
-                            <button asp-page-handler ="submit" class="btn btn-primary btn-lg" type="submit" >Submit</button>
-                            }
-                            else{
-                            <button asp-page-handler="update" class="btn btn-danger btn-lg">Update</button>
-                            }
-                        
+                        <div class="alert " role="alert" style="background-color: #ffc6c4;">
+                             <strong>@TempData["AlertMessage"]</strong>
                         </div>
-
-                </form> 
-@* </div> *@
-        }
-        else{
-                <h2 class="display-4">SCHEDULE YOUR DAYS</h2>
-                <div class="table1">
-                <table class="table table-striped">
-                      <tr>
-                        <th>Select</th>
-                        <th>Days Of The Week</th>
-                        <th>Status</th>
-                    </tr>
-                @foreach (var item in @Model.WorkingEmployees)
-                {
-                <tbody>
-                    <tr>
-                          
-                            @if(item.Value.Contains(@Model.Data.FirstName!))
-                    {
-                        <td>
-
-                    <input name="Day" class="form-check-input" type="checkbox" checked value="@item.Key" /> 
-                        </td>
-                        <td>
-                    <label class="form-check-label" >@item.Key</label>
-
-                        </td>
-                        
                     }
-                    else
-                    {
-                        <td>
-                            <input name="Day" class="form-check-input" type="checkbox" value="@item.Key" /> 
+            <button class="btn" type="submit" value="Login">Login</button>
+            </div>
+          </div>
+        
+               
+        </form>
+       </div>             
+        
+  </div>
 
-                        </td>
-                        <td>
-                            <label class="form-check-label" >@item.Key</label>    
-                        </td>
-                     
-                               
-                    }
-                       
-                    @if(item.Value.Count() == 3)
-                    {
-                        <td>
-
-                    <input type="color" value="#32CD32" id="colorPicker" /> 
-                        </td>
-
-                    }
-                    else if(item.Value.Count() < 3)
-                    {
-                       <td>
-                        <input type="color" value="#808080" id="colorPicker" />  
-
-                       </td>
-                    }
-                    else if(item.Value.Count() > 3)
-                    {
-                        <td>
-                        <input type="color" value="#FF0000" id="colorPicker" /> 
-
-                        </td>
-                    }
-
-                    </tr>
-
-                </tbody>
-                }
-                    
-
-                    
-
-                </table>
-                    
-                </div>
-
-            }
-
-
-    </div> 
+       

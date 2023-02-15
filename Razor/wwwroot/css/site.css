@@ -14,42 +14,74 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
-  background-color: #847072;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-image: url("/images/pexels-photo-683039.jpeg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  /* background-color: #3d313f; */
 }
-.card {
-  margin-top: 50px;
-  height: 750px;
+body::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  background-color: black;
+  opacity: 0.5;
+  z-index: -1;
+  border-radius: 0.25em;
 }
+
 .nav-item {
   font-family: sans-serif;
-  color: #3d313f;
+  color: black;
   font-weight: bold;
+  font-size: 20px;
 }
-.navbar-brand {
+.nav-item1 {
   font-family: sans-serif;
-  color: #3d313f;
+  color: black;
   font-weight: bold;
+  font-size: 20px;
+  margin-right: 20px;
+}
+.navbar-collapse {
+  margin-left: 980px;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 24px;
+  font-family: sans-serif;
+  font-style: italic;
 }
 .border-top {
   font-family: sans-serif;
-  color: #3d313f;
+  color: white;
   font-weight: bold;
 }
 h1 {
-  margin-bottom: 30px;
-  margin-top: 30px;
+  margin-top: 300px;
+  color: white;
+  font-weight: bold;
+  font-family: sans-serif;
+  text-align: center;
+}
+h2 {
+  margin-top: 50px;
   color: white;
   font-weight: bold;
   font-family: serif;
-}
-h2 {
-  margin-bottom: 50px;
-  margin-top: 40px;
-  color: #3d313f;
-  font-weight: bold;
-  font-family: serif;
   text-align: center;
+}
+.name {
+  border: none;
+  background-color: wheat;
 }
 
 .form-check {
@@ -66,15 +98,11 @@ h2 {
   padding-left: 330px;
   padding-right: 300px;
 }
-.button {
-  /* margin-top: 40px; */
-}
+
 .table1 {
-  /* margin-bottom: 50px; */
   font-family: serif;
   font-size: 20px;
   width: 900px;
-  margin-left: 200px;
 }
 #colorPicker {
   margin-top: 10px;
@@ -83,16 +111,147 @@ h2 {
 ol {
   list-style: none;
 }
-
-.table table-striped {
-  width: 100%;
-  text-align: center;
-  font-size: 25px;
+.waiterBtn {
+  border: none;
+  background-color: wheat;
 }
-.table {
-  background-color: #dcc1b0;
-  /* margin-bottom: 50px; */
+
+.table,
+th,
+td {
+  /* background-color: rgba(0, 0, 0, 0.6); */
+  margin-top: 50px;
+  background-color: wheat;
   font-family: serif;
+  font-size: 18px;
   width: 900px;
-  border-color: black;
+  margin-left: 200px;
+  border: 1px solid black;
+  margin-bottom: 30px;
+}
+
+/* .manager {
+  width: 60%;
+  text-align: center;
+  font-size: 20px;
+  font-family: serif;
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin-left: 250px;
+  margin-bottom: 30px;
+} */
+li,
+a {
+  text-decoration: none;
+  color: black;
+}
+.waiter {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.box {
+  margin-top: 50px;
+}
+
+.form-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 550px;
+  height: 420px;
+  padding: 60px, 30px;
+  box-sizing: border-box;
+  background-color: white;
+  padding-bottom: 5%;
+  padding-top: 30px;
+}
+h3 {
+  margin: 0;
+  /* padding: 0 0 40px; */
+  margin-top: 30px;
+  font-weight: bold;
+  font-size: 24px;
+  text-align: center;
+  color: black;
+}
+.form-box label {
+  margin: 0;
+  padding: 0;
+  margin-right: 320px;
+  font-weight: bold;
+  color: black;
+  font-size: 24px;
+}
+.form-box input {
+  width: 80%;
+  margin-bottom: 25px;
+}
+.form-box input[type="text"] {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black;
+  background: transparent;
+  color: #fff;
+  height: 60px;
+  font-size: 16px;
+  margin-bottom: 50px;
+}
+/* .btn2 {
+  border: none;
+  outline: none;
+  height: 40px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 28px;
+  margin-top: 20px;
+  margin-right: 100px;
+} */
+.blink_me {
+  margin-top: 200px;
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+.btn {
+  border: 2px solid gray;
+  font-size: 20px;
+  padding: 12px 28px;
+  cursor: pointer;
+  background: rgb(208, 114, 5);
+  border-radius: 12px;
+}
+.btn1 {
+  border-radius: 12px;
+  border: 2px solid gray;
+  font-size: 20px;
+  margin-left: 350px;
+  padding: 12px 28px;
+  margin-top: 30px;
+  cursor: pointer;
+  color: white;
+}
+.btn2 {
+  border-radius: 12px;
+  border: 2px solid gray;
+  font-size: 20px;
+  margin-left: 350px;
+  padding: 12px 28px;
+  margin-top: 30px;
+  cursor: pointer;
+}
+.btn3 {
+  border-radius: 12px;
+  border: 2px solid gray;
+  font-size: 20px;
+  /* margin-left: 50px; */
+  padding: 12px 28px;
+  margin-top: 20px;
+  cursor: pointer;
+  color: white;
 }

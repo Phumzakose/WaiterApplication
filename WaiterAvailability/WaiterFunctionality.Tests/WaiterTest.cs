@@ -84,6 +84,15 @@ public class WaiterTest : IDisposable
     List<string> day = new List<string>() { "Monday", "Tuesday", "Friday" };
     Assert.Equal("The schedule is cleared", waiter.ResetData());
   }
+  [Fact]
+  public void ItShouldBeAbleToReturnTheNameOfTheWaiter()
+  {
+    List<string> days = new List<string>() { "Monday", "Tuesday", "Wednesday" };
+    waiter.AddingSelectedDays("Bongi", days);
+    Assert.Equal("Bongi", waiter.CheckName("Bongi"));
+
+  }
+
 
 
 
