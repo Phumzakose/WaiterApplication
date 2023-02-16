@@ -56,7 +56,7 @@ namespace Razor.Pages
     public void OnPostClear()
     {
       _waiter.ResetData();
-      TempData["AlertMessage"] = "Your Schedule has been cleared...!";
+      TempData["Message2"] = "Your Schedule has been cleared...!";
       WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
     }
 

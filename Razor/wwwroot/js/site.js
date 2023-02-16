@@ -9,3 +9,11 @@ window.setTimeout(function () {
       $(this).remove();
     });
 }, 4000);
+
+window.setTimeout(function () {
+  $(".alert1")
+    .fadeTo(500, 0)
+    .slideUp(500, function () {
+      $(this).remove();
+    });
+}, 4000);

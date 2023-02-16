@@ -12,14 +12,15 @@
 
 
       @if (!@Model.IsAdmin) {
-         <div class="blink_me "> 
-          <h1 class="display-4">Access denied</h1>
-          </div>
- <div class="button">
+    <div class="denied">
             
-    <button><a asp-page-handler="home" asp-page="/Index" >home</a></button>
- 
-        </div>
+         <div class="blink_me "> 
+          <h1 class="display-4 text-danger">Access denied</h1>
+          </div>
+          <i class="fa fa-lock w3-xxlarge" aria-hidden="true"></i>
+          <br>
+        <button class="btn3 btn-danger btn-lg"><a asp-page-handler="home" asp-page="/Index" >home</a></button>
+    </div>
       }
 
       else {
@@ -52,15 +53,15 @@
         }
       </table>  
 
-        @if(TempData["AlertMessage"] != null)
+
+        <div class="button">
+        @if(TempData["Message2"] != null)
                     {
                         <div class="alert alert-success">
-                            <strong>@TempData["AlertMessage"]</strong>
+                            <strong>@TempData["Message2"]</strong>
                         </div>
 
                     }
-
-        <div class="button">
             <form asp-page-handler="clear" method="post">
                   
                   <button class="btn3 btn-danger btn-lg"  asp-page-handler="clear" asp-route-name="name" >Clear</button>

@@ -84,6 +84,8 @@
                     
             
                 </table>
+                            <div class="button">
+                          
                 @if(TempData["AlertMessage"] != null)
                     {
                         <div class="alert alert-success">
@@ -91,8 +93,6 @@
                         </div>
 
                     }
-                            <div class="button">
-                          
                                 @if(@HttpContext.Session.GetString(SessionKeys.UserNameKey) != "Admin" )
                                 @if(@Model.Day.Count() < 1 && @HttpContext.Session.GetString(SessionKeys.UserNameKey) != null)
                                 {

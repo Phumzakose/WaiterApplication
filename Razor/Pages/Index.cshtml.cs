@@ -44,7 +44,7 @@ public class IndexModel : PageModel
     }
     else if (!name.Equals(FirstName))
     {
-      TempData["AlertMessage"] = "Invalid user !!";
+      TempData["Message1"] = "Invalid user !!";
     }
 
     FirstName = "";

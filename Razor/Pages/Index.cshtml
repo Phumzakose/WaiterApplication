@@ -9,8 +9,9 @@
   <div class="box">
     
 
-@*            
-    <h1 class="display-4">WELCOME BACK !</h1> *@
+           
+    <h1 class="display-4">WELCOME PLEASE LOGIN</h1>
+              
        <div class="form-box">
 
           <h3>Login In Here</h3>
@@ -19,17 +20,15 @@
             <label for="FirstName">Username </label>
             <input name="FirstName" placeholder="Enter Username" type="text"  asp-for="@Model.FirstName"/>
             <br>
-            @* <label for="Password">Password: </label>
-            <input placeholder="Enter Password" type="password"/>
-            <br> *@
-
-            <div class="button">
-                @if(TempData["AlertMessage"] != null)
+        
+              @if(TempData["Message1"] != null)
                     {
-                        <div class="alert " role="alert" style="background-color: #ffc6c4;">
-                             <strong>@TempData["AlertMessage"]</strong>
+                        <div class="alert1  bg-warning text-dark" role="alert">
+                             <strong>@TempData["Message1"]</strong>
                         </div>
                     }
+
+            <div class="button">
             <button class="btn" type="submit" value="Login">Login</button>
             </div>
           </div>
