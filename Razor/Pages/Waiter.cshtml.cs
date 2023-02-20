@@ -19,9 +19,6 @@ public class WaiterModel : PageModel
   }
 
   [BindProperty]
-  public WorkingDays Data { get; set; }
-
-  [BindProperty]
   public string FirstName { get; set; }
 
   [BindProperty]
@@ -44,7 +41,7 @@ public class WaiterModel : PageModel
         return true;
       }
       return false;
-      // // Equals("Admin");
+
     }
   }
 
@@ -52,8 +49,6 @@ public class WaiterModel : PageModel
   {
     get
     {
-
-      // this if statement should only be possible is the current user is an admin user
       if (IsAdmin)
       {
         if (WaiterName != null && WaiterName.Length > 0)
@@ -69,13 +64,8 @@ public class WaiterModel : PageModel
   }
 
 
-
-  public List<string> Days = new List<string>();
-
-
   public void OnGet()
   {
-    //var name = GetWaiterName;
     var name = HttpContext.Session.GetString(SessionKeys.UserNameKey);
     Day = _waiter.WeekDays(name);
     WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
@@ -92,20 +82,18 @@ public class WaiterModel : PageModel
 
   public void OnPostSubmit()
   {
-    //var name = HttpContext.Session.GetString("_Name");
-    var name = GetWaiterName;
 
+    var name = GetWaiterName;
     _waiter.AddingSelectedDays(name, Day);
     WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
-    Days = _waiter.WeekDays(name);
+    Day = _waiter.WeekDays(name);
     TempData["AlertMessage"] = "Your days have been submitted successfully...!";
 
   }
   public void OnPostUpdate()
   {
-    //var name = HttpContext.Session.GetString("_Name");
-    var name = GetWaiterName;
 
+    var name = GetWaiterName;
     _waiter.UpdateWorkingDays(name, Day);
     WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
     TempData["AlertMessage"] = "Your days have been updated successfully..!";
@@ -120,11 +108,6 @@ public class WaiterModel : PageModel
 
   public void OnPostManager()
   {
-    // check in the session that this is a manager...
-
-    Console.WriteLine(WaiterName);
-    Console.WriteLine("---");
-
     var name = GetWaiterName;
     Day = _waiter.WeekDays(name);
     WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();

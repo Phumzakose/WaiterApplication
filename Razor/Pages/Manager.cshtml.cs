@@ -38,7 +38,7 @@ namespace Razor.Pages
           return true;
         }
         return false;
-        // // Equals("Admin");
+       
       }
     }
 
@@ -47,7 +47,6 @@ namespace Razor.Pages
     {
 
       var name = HttpContext.Session.GetString(SessionKeys.UserNameKey);
-      Console.WriteLine(name);
       Day = _waiter.WeekDays(name);
       WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
 

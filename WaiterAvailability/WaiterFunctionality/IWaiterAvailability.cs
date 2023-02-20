@@ -11,6 +11,7 @@ public interface IWaiterAvailability
   List<string> GetWorkingEmployees();
   String ResetData();
   string CheckName(string userName);
+  Dictionary<DayOfWeek, DateOnly> DaysOfTheWeek(DateTime today);
 
 
 

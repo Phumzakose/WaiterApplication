@@ -314,6 +314,23 @@ public class WaiterAvailability : IWaiterAvailability
 
   }
 
+  DateTime today = DateTime.Now;
+
+  public Dictionary<DayOfWeek, DateOnly> DaysOfTheWeek(DateTime today)
+  {
+    Dictionary<DayOfWeek, DateOnly> weekDaysDate = new Dictionary<DayOfWeek, DateOnly>();
+    var days = DayOfWeek.Monday - today.DayOfWeek;
+    var startDate = today.AddDays(days);
+
+    for (int i = 0; i < 7; i++)
+    {
+      weekDaysDate.Add(startDate.AddDays(i).DayOfWeek, DateOnly.FromDateTime(startDate.AddDays(i)));
+    }
+    return weekDaysDate;
+
+  }
+
+
 
 
 

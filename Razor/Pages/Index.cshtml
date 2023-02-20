@@ -7,11 +7,12 @@
 
 
   <div class="box">
-    
-
-           
-    <h1 class="display-4">WELCOME PLEASE LOGIN</h1>
-              
+           @if(TempData["Message1"] != null)
+                    {
+                        <div class="alert  bg-warning text-dark" role="alert">
+                             <strong>@TempData["Message1"]</strong>
+                        </div>
+                    }       
        <div class="form-box">
 
           <h3>Login In Here</h3>
@@ -21,17 +22,12 @@
             <input name="FirstName" placeholder="Enter Username" type="text"  asp-for="@Model.FirstName"/>
             <br>
         
-              @if(TempData["Message1"] != null)
-                    {
-                        <div class="alert1  bg-warning text-dark" role="alert">
-                             <strong>@TempData["Message1"]</strong>
-                        </div>
-                    }
 
             <div class="button">
             <button class="btn" type="submit" value="Login">Login</button>
             </div>
           </div>
+         
         
                
         </form>
