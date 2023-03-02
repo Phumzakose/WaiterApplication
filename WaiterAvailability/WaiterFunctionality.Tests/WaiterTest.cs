@@ -48,6 +48,7 @@ public class WaiterTest : IDisposable
     // Console.WriteLine("... done!");
   }
 
+  DateTime today = DateTime.Now;
 
 
   [Fact]
@@ -69,21 +70,30 @@ public class WaiterTest : IDisposable
   [Fact]
   public void ItShouldBeAbleToUpdateTheWorkingDays()
   {
-    List<string> days = new List<string>() { "Monday", "Tuesday", "Wednesday" };
+    List<string> days = new List<string>() { "2023/02/01", "2023/02/02", "2023/02/03" };
     waiter.AddingSelectedDays("Lulu", days);
-    List<string> day = new List<string>() { "Monday", "Tuesday", "Friday" };
+    List<string> day = new List<string>() { "2023/02/27", "2023/02/28" };
 
-    Assert.Equal("You have updated your days", waiter.UpdateWorkingDays("Lulu", day));
+    Assert.Equal("You have updated your days", waiter.UpdateWorkingDays("Lulu", day, 0));
 
   }
   [Fact]
-  public void ItShouldBeAbleToReturnAmessageWhenTheScheduleIsCleared()
+  public void ItShouldBeAbleToReturnWaiterAvailable()
   {
-    List<string> days = new List<string>() { "Monday", "Tuesday", "Wednesday" };
+    List<string> days = new List<string>() { "2023/02/01", "2023/02/02", "2023/02/03" };
     waiter.AddingSelectedDays("Lulu", days);
-    List<string> day = new List<string>() { "Monday", "Tuesday", "Friday" };
-    Assert.Equal("The schedule is cleared", waiter.ResetData());
+    Assert.Equal("Lulu", waiter.CheckName("Lulu"));
+
   }
+  public void ItShouldBeAbleToReturnErrorMessageIfWaiterIsNotAvailable()
+  {
+    List<string> days = new List<string>() { "2023/02/01", "2023/02/02", "2023/02/03" };
+    waiter.AddingSelectedDays("Lulu", days);
+    Assert.Equal("Invalid user", waiter.CheckName("Thembisa"));
+
+  }
+
+
 
 
 

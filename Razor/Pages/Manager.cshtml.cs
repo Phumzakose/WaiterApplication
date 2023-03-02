@@ -16,8 +16,7 @@ namespace Razor.Pages
       _waiter = waiter;
     }
 
-    [BindProperty]
-    public string FirstName { get; set; }
+
     [BindProperty]
     public List<string> Day { get; set; }
     [BindProperty]
@@ -25,6 +24,10 @@ namespace Razor.Pages
 
     [BindProperty]
     public Dictionary<string, List<string>> WorkingEmployees { get; set; }
+    [BindProperty]
+    public Dictionary<string, DayOfWeek> WeekDaysDate { get; set; }
+    DateTime today = DateTime.Now;
+    public int days = 7;
 
 
 
@@ -38,24 +41,34 @@ namespace Razor.Pages
           return true;
         }
         return false;
-       
+
       }
     }
 
 
     public void OnGet()
     {
-
+      WorkingDays.DecreasedWeeks();
       var name = HttpContext.Session.GetString(SessionKeys.UserNameKey);
       Day = _waiter.WeekDays(name);
+      WeekDaysDate = _waiter.DaysOfTheWeek(today, WorkingDays.Week);
       WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
 
     }
 
     public void OnPostClear()
     {
-      _waiter.ResetData();
-      TempData["Message2"] = "Your Schedule has been cleared...!";
+      _waiter.ResetData(WorkingDays.Week);
+      if (WorkingDays.Week == 0)
+      {
+        TempData["Message2"] = "Week 1 Schedule has been cleared...!";
+
+      }
+      else
+      {
+        TempData["Message2"] = "Week 2 Schedule has been cleared...!";
+      }
+      WeekDaysDate = _waiter.DaysOfTheWeek(today, WorkingDays.Week);
       WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
     }
 
@@ -68,9 +81,10 @@ namespace Razor.Pages
 
     public void OnPostBack()
     {
+      WorkingDays.DecreasedWeeks();
       var name = HttpContext.Session.GetString(SessionKeys.UserNameKey);
-      Console.WriteLine(name);
       Day = _waiter.WeekDays(name);
+      WeekDaysDate = _waiter.DaysOfTheWeek(today, WorkingDays.Week);
       WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
 
 
@@ -79,9 +93,16 @@ namespace Razor.Pages
     {
       return RedirectToPage("Index");
     }
+    public IActionResult OnPostNextWeek()
+    {
+      WorkingDays.IncreasedWeeks();
+      var name = HttpContext.Session.GetString(SessionKeys.UserNameKey);
+      Day = _waiter.WeekDays(name);
+      WeekDaysDate = _waiter.DaysOfTheWeek(today, WorkingDays.Week);
+      WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
+      return Page();
 
-
-
+    }
 
   }
 }

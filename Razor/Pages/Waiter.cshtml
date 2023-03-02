@@ -16,90 +16,129 @@
             <div class="blink_me "> 
             <h1 class="display-4 text-light">Please Login First</h1>
             </div>
-            <i class="fa fa-lock w3-xxlarge" aria-hidden="true"></i>
+            <i id="lock" class="fa fa-lock w3-xxlarge" aria-hidden="true"></i>
             <br>
-            <button class="btn3 btn-danger btn-lg"><a asp-page-handler="home" asp-page="/Index" >home</a></button>
+            <form method="post">
+             <button class="btn3 btn-danger btn-lg" asp-page-handler="home" asp-page="/Index" >home</button>
+            </form>
         </div>
 
         }
            
         else if(@Model.GetWaiterName != null)
         {
+            @if(@HttpContext.Session.GetString(SessionKeys.UserNameKey) != "Admin")
+            {
+                <h1 class="display-4">@Model.GetWaiterName.ToUpper() SCHEDULE YOUR DAYS</h1> 
 
+            }
+            @if(@HttpContext.Session.GetString(SessionKeys.UserNameKey) == "Admin")
+            {
+                if(WorkingDays.Week >0)
+                {
+                    <h1 class="display-4"> ON @Model.GetWaiterName.ToUpper()'S ACCOUNT</h1>   
 
-            
-            <h1 class="display-4">@Model.GetWaiterName.ToUpper() SCHEDULE YOUR DAYS</h1>
-         
-                
+                }else if(WorkingDays.Week == 0)
+                {
+                    <h1 class="display-4"> ON @Model.GetWaiterName.ToUpper()'S ACCOUNT</h1>   
+
+                }
+            } 
             <form method="post">
-                    <input name="WaiterName" type="hidden"  value="@Model.WaiterName" />
-           
-                 <div class="table1">
 
+                    <input name="WaiterName" type="hidden"  value="@Model.WaiterName" />
+
+                    @if(WorkingDays.Week == 0)
+                    {
+                    <h2>WEEK 1</h2>
+                    }
+                    else if(WorkingDays.Week >0)
+                    {
+                        <h2>WEEK 2 SCHEDULE</h2>
+                    }
+                    @if(@HttpContext.Session.GetString(SessionKeys.UserNameKey) != "Admin")
+                    {
+                        <div class="weeks">
+                        <button asp-for="WorkingDays.Week" asp-page-handler="Back">Back</button>
+                        <button asp-for="WorkingDays.Week" asp-page-handler="Next">Next</button>
+                        </div>
+                
+                    }
+                    else if(@HttpContext.Session.GetString(SessionKeys.UserNameKey) == "Admin")
+                    {
+                        <div class="weeks">
+                        <button asp-for="WorkingDays.Week" asp-page-handler="Back">Back</button>
+                        <button asp-for="WorkingDays.Week" asp-page-handler="Next">Next</button>  
+                        </div>
+                    }
 
                     <table class="table table-striped">
+                          <tr>
                             <thead>
-                            <tr>
                                 <th>Days Of The Week</th>
                                 <th>Select</th>
                                 <th>Status</th>
-                            </tr>
                             </thead>
-                
-                        @foreach (var item in @Model.WorkingEmployees)
-                        {
-                            <tbody>
-
-                            <tr>
-                            
-                            @if(item.Value.Contains(@Model.GetWaiterName))
-                            {
-                                <td>
-                                    <label class="form-check-label" >@item.Key</label>
-                                </td>
-                                <td>
-                                    <input name="Day" class="form-check-input" type="checkbox" checked value="@item.Key" /> 
-                                </td>
-                                        
-                            }
-                            else
-                            {
-                                <td>
-                                <label class="form-check-label" >@item.Key</label> 
-                                </td>     
-                                <td>
-                                <input name="Day" class="form-check-input" type="checkbox" value="@item.Key" /> 
-                                </td>
-                            }
-                            @if(item.Value.Count() == 3)
-                            {
-                                <td>
-
-                            <input type="color" value="#32CD32" id="colorPicker" /> 
-                                </td>
-
-                            }
-                            else if(item.Value.Count() < 3)
-                            {
-                            <td>
-                                <input type="color" value="#fcbf49" id="colorPicker" />  
-
-                            </td>
-                            }
-                            else if(item.Value.Count() > 3)
-                            {
-                                <td>
-                                <input type="color" value="#FF0000" id="colorPicker" /> 
-
-                                </td>
-                            }
                             </tr>
-                        
-                            </tbody>
-                        }
+                             @foreach (var item in @Model.WeekDaysDate)
+                            {
+                                    <tbody>
+                                    <tr>
+                                            <td>
+                                                <label class="form-check-label" >@item.Value</label>
+                                                <br>
+                                                <i class="fa fa-calendar-o" aria-hidden="true"> <label class="form-check-label" >@item.Key</label> </i> 
+                                            </td>
+
+
+                                           @if(@Model.WorkingEmployees.ContainsKey(item.Key))
+                                           {
+                                            <td>
+                                                @if(@Model.WorkingEmployees[item.Key].Contains(@Model.GetWaiterName))
+                                                {
+                                                    <input name="Day" class="form-check-input" type="checkbox" checked value="@item.Key" />                                                        
+
+                                                }
+                                                else
+                                                {  
+                                                    <input name="Day" class="form-check-input" type="checkbox" value="@item.Key" />                                  
+                                                }
+                                            </td>
+                                                <td>
+                              
+                                                @if(@Model.WorkingEmployees[item.Key].Count() == 3 )
+                                                {
+                                                <input type="color" value="#32CD32" id="colorPicker" />
+                                                }else if(@Model.WorkingEmployees[item.Key].Count() < 3)
+                                                {
+                                                  <input type="color" value="#fcbf49" id="colorPicker" />   
+                                                }
+                                                else if(@Model.WorkingEmployees[item.Key].Count() > 3)
+                                                {
+                                                    <input type="color" value="#FF0000" id="colorPicker" /> 
+                                                }
+
+                                                </td>
+                                       
+                                            } 
+                                            else 
+                                           {
+                                                <td>
+                                                     <input name="Day" class="form-check-input" type="checkbox"  value="@item.Key" />
+                                                </td>
+                                                 <td>
+                            
+                                                        <input type="color" value="#fcbf49" id="colorPicker" /> 
+                                                </td>
+                                       
+                                                    
+                                            } 
+                                   
+                                    </tr>
+                                    </tbody>    
+                            }
 
                     </table>
-                        </div>
                               
 
                      @if(TempData["AlertMessage"] != null)
@@ -109,29 +148,47 @@
                             </div>
 
                         }
+                   
                         <div class="button">
                             
                                     @if(@HttpContext.Session.GetString(SessionKeys.UserNameKey) != "Admin" )
                                     {
-                                    @if(@Model.Day.Count() < 1 && @HttpContext.Session.GetString(SessionKeys.UserNameKey) != null)
-                                    {
-                                        <button asp-page-handler ="submit" class="btn2 btn-primary btn-lg" type="submit" >Submit</button>
-                                    
-                                    }
-                                    else{
-                                        <button asp-page-handler="update" class="btn1 btn-success btn-lg">Update</button>
-                                    
-                                    }
+                                       @if(WorkingDays.Week == 0)
+                                       {
+                                        @if(@Model.WaiterDays().Count() < 1 && @HttpContext.Session.GetString(SessionKeys.UserNameKey) != null)
+                                        {
+                                            <button asp-page-handler ="submit" class="btn2 btn-primary btn-lg" type="submit">Submit</button>
+                                        
+                                        }
+                                        else
+                                        {
+                                            <button asp-page-handler="update" class="btn1 btn-success btn-lg">Update</button>
+                                        }
+
+                                       }
+                                       else if(WorkingDays.Week > 0)
+                                       {
+                                        @if(@Model.WaiterDays().Count() < 1 && @HttpContext.Session.GetString(SessionKeys.UserNameKey) != null)
+                                        {
+                                            <button asp-page-handler ="submit" class="btn2 btn-primary btn-lg" type="submit">Submit</button>
+                                        
+                                        }
+                                        else
+                                        {
+                                            <button asp-page-handler="update" class="btn1 btn-success btn-lg">Update</button>
+                                        }
+
+                                       }
 
                                     }
                                     else if(@HttpContext.Session.GetString(SessionKeys.UserNameKey) == "Admin")
-                                    {
-                                        
+                                    {  
                                         <div class="waiter-buttons">
                                             <button asp-page-handler="update" class="btn1 btn-success btn-lg">Update</button>
 
                                         </div>
                                     }
+       
                         </div>
 
             </form> 

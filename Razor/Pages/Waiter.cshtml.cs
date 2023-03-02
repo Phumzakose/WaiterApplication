@@ -6,8 +6,6 @@ namespace Razor.Pages;
 
 public class WaiterModel : PageModel
 {
-  // public const string SessionKeyName1 = "_Waiter";
-  //  public const string SessionKeyName = "_Name";
 
   private readonly ILogger<WaiterModel> _logger;
   private IWaiterAvailability _waiter;
@@ -19,9 +17,6 @@ public class WaiterModel : PageModel
   }
 
   [BindProperty]
-  public string FirstName { get; set; }
-
-  [BindProperty]
   public string WaiterName { get; set; }
 
   [BindProperty]
@@ -29,6 +24,11 @@ public class WaiterModel : PageModel
 
   [BindProperty]
   public Dictionary<string, List<string>> WorkingEmployees { get; set; }
+  [BindProperty]
+  public Dictionary<string, DayOfWeek> WeekDaysDate { get; set; }
+
+
+  public int days { get; set; }
 
 
   public bool IsAdmin
@@ -63,15 +63,36 @@ public class WaiterModel : PageModel
     }
   }
 
+  DateTime today = DateTime.Now;
+
+  public List<string> WaiterDays()
+  {
+    var name = HttpContext.Session.GetString(SessionKeys.UserNameKey);
+    List<string> waiterDays = new List<string>();
+
+    foreach (var item in _waiter.DaysOfTheWeek(today, WorkingDays.Week))
+    {
+      foreach (var items in _waiter.WeekDays(name))
+      {
+        if (items.Contains(item.Key))
+        {
+          waiterDays.Add(item.Key);
+        }
+
+      }
+    }
+    return waiterDays;
+  }
 
   public void OnGet()
   {
+    WorkingDays.DecreasedWeeks();
     var name = HttpContext.Session.GetString(SessionKeys.UserNameKey);
-    Day = _waiter.WeekDays(name);
+    WeekDaysDate = _waiter.DaysOfTheWeek(today, WorkingDays.Week);
     WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
+    Day = _waiter.WeekDays(name);
 
   }
-
 
 
   public IActionResult OnPostLogout()
@@ -82,19 +103,22 @@ public class WaiterModel : PageModel
 
   public void OnPostSubmit()
   {
-
     var name = GetWaiterName;
     _waiter.AddingSelectedDays(name, Day);
+    WeekDaysDate = _waiter.DaysOfTheWeek(today, WorkingDays.Week);
     WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
     Day = _waiter.WeekDays(name);
+
     TempData["AlertMessage"] = "Your days have been submitted successfully...!";
 
   }
+
   public void OnPostUpdate()
   {
-
+    //WorkingDays.IncreasedWeeks();
     var name = GetWaiterName;
-    _waiter.UpdateWorkingDays(name, Day);
+    _waiter.UpdateWorkingDays(name, Day, WorkingDays.Week);
+    WeekDaysDate = _waiter.DaysOfTheWeek(today, WorkingDays.Week);
     WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
     TempData["AlertMessage"] = "Your days have been updated successfully..!";
 
@@ -109,13 +133,35 @@ public class WaiterModel : PageModel
   public void OnPostManager()
   {
     var name = GetWaiterName;
-    Day = _waiter.WeekDays(name);
+    WeekDaysDate = _waiter.DaysOfTheWeek(today, WorkingDays.Week);
     WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
+    Day = _waiter.WeekDays(name);
 
+  }
+  public IActionResult OnPostNext()
+  {
+    days = WorkingDays.Week;
+    WorkingDays.IncreasedWeeks();
+    WeekDaysDate = _waiter.DaysOfTheWeek(today, WorkingDays.Week);
+    WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
+    return Page();
 
   }
 
+  public void OnPostBack()
+  {
+    WorkingDays.DecreasedWeeks();
+    var name = HttpContext.Session.GetString(SessionKeys.UserNameKey);
+    Day = _waiter.WeekDays(name);
+    WeekDaysDate = _waiter.DaysOfTheWeek(today, WorkingDays.Week);
+    WorkingEmployees = _waiter.GetShiftOfWorkingEmployees();
 
+  }
+
+  public IActionResult OnPostHome()
+  {
+    return RedirectToPage("Index");
+  }
 
 
 }

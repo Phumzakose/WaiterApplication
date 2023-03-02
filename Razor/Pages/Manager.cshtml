@@ -17,35 +17,61 @@
          <div class="blink_me "> 
           <h1 class="display-4 text-light">Please Login First</h1>
           </div>
-          <i class="fa fa-lock w3-xxlarge" aria-hidden="true"></i>
+          <i id="lock" class="fa fa-lock w3-xxlarge" aria-hidden="true"></i>
           <br>
-        <button class="btn3 btn-danger btn-lg"><a asp-page-handler="home" asp-page="/Index" >home</a></button>
+        <form method="post">
+          <button class="btn3 btn-danger btn-lg" asp-page-handler="home" asp-page="/Index" >home</button>
+        </form>
     </div>
       }
 
       else {
 
       <h1 class="display-4">WEEKLY SCHEDULE</h1>
+      <form method="post">
+        @* <input name="WorkingDays.Week"  value="WorkingDays.Week" /> *@
+        @if(WorkingDays.Week == 0)
+                    {
+                    <h2>WEEK 1 </h2>
+                    }
+                    else if(WorkingDays.Week ==7)
+                    {
+                        <h2>WEEK 2 </h2>
+                    }
+                    <div class="weeks">
+                    <button asp-for="WorkingDays.Week" asp-page-handler="Back">Back</button>
+                    <button asp-for="WorkingDays.Week" asp-page-handler="NextWeek">Next</button>
+
+                    </div>
+      </form>
       <table class="table table-striped">
           <tr>
             <th>Days Of The Week</th>
             <th>Employees</th>
             
           </tr>
-        @foreach (var item in @Model.WorkingEmployees)
+        @foreach (var item in @Model.WeekDaysDate)
         {
           <tr>
-            <td>@item.Key</td>
+            <td>@item.Value
+              <br>
+            <i class="fa fa-calendar-o" aria-hidden="true"> <label class="form-check-label" >@item.Key</label> </i>
+            </td>
               <td>
                 <ol>
-            @foreach (var employeeName in item.Value)
-            {
-              <form method="post">
-                  <input type="hidden" name="WaiterName" value="@employeeName">
-                  <input class="name" asp-page="Waiter" asp-page-handler="manager" type="submit" value="@employeeName" />
-              </form>
+                    @if(@Model.WorkingEmployees.ContainsKey(item.Key))
+                      {
+                        @foreach (var employee in @Model.WorkingEmployees[item.Key])
+                        {
+                          <form method="post">
+                              <input type="hidden" name="WaiterName" value="@employee">
+                              <input class="name" asp-page="Waiter" asp-page-handler="manager" type="submit" value="@employee" />
+                          </form>
+                          
+                        }
+                    
+                      }
 
-            }
                 </ol>
                
                 </td>
@@ -65,7 +91,6 @@
             <form asp-page-handler="clear" method="post">
                   
                   <button class="btn3 btn-danger btn-lg"  asp-page-handler="clear" asp-route-name="name" >Clear</button>
-                  @* <button class="btn2 btn-primary btn-lg"  asp-page-handler="logout" >Logout</button> *@
             </form> 
         </div>
       }

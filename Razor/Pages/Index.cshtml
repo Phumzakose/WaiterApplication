@@ -8,11 +8,18 @@
 
   <div class="box">
            @if(TempData["Message1"] != null)
-                    {
-                        <div class="alert  bg-warning text-dark" role="alert">
-                             <strong>@TempData["Message1"]</strong>
-                        </div>
-                    }       
+            {
+                <div class="alert  bg-warning text-dark" role="alert">
+                      <strong>@TempData["Message1"]</strong>
+                </div>
+            }
+            @if(TempData["AlertMessage"] != null)
+            {
+                <div class="alert bg-warning">
+                    <strong>@TempData["AlertMessage"]</strong>
+                </div>
+
+            }       
        <div class="form-box">
 
           <h3>Login In Here</h3>
@@ -21,7 +28,6 @@
             <label for="FirstName">Username </label>
             <input name="FirstName" placeholder="Enter Username" type="text"  asp-for="@Model.FirstName"/>
             <br>
-        
 
             <div class="button">
             <button class="btn" type="submit" value="Login">Login</button>
@@ -31,6 +37,7 @@
         
                
         </form>
+    
        </div>             
         
   </div>

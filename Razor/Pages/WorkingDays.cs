@@ -1,12 +1,29 @@
 using System.ComponentModel.DataAnnotations;
 
 
-public class WorkingDays
+static public class WorkingDays
 {
-  [Required(ErrorMessage = "Please select your working days")]
-  public List<int>? WeekDays { get; set; }
 
-  [Required(ErrorMessage = "Please enter a your name")]
-  public string? FirstName { get; set; }
+  static public int Week { get; set; }
+
+
+  static public void IncreasedWeeks()
+  {
+    if (Week == 0)
+    {
+      Week += 7;
+
+    }
+  }
+
+  static public void DecreasedWeeks()
+  {
+    if (Week == 7)
+    {
+      Week -= 7;
+
+    }
+  }
 
 }
+

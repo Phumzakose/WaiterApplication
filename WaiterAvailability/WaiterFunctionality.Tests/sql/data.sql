@@ -15,7 +15,7 @@
 --                      \          
 --        Wny            \   
 
-Delete from workschedule;
+Delete from schedule;
 
 -- Delete employees;
 

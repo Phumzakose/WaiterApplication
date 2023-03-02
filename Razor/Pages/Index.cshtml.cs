@@ -20,8 +20,7 @@ public class IndexModel : PageModel
   [BindProperty]
   public string FirstName { get; set; }
 
-  // [BindProperty]
-  // public WorkingDays Employee { get; set; }
+
 
   public string name;
 
@@ -32,7 +31,11 @@ public class IndexModel : PageModel
   public IActionResult OnPost()
   {
     name = _waiter.CheckName(FirstName);
-    if (name.Equals(FirstName))
+    if (FirstName == null)
+    {
+      TempData["AlertMessage"] = "Please enter your details before you login..!";
+    }
+    else if (name.Equals(FirstName))
     {
       HttpContext.Session.SetString(SessionKeyName, FirstName);
       return RedirectToPage("Waiter");
@@ -47,11 +50,17 @@ public class IndexModel : PageModel
       TempData["Message1"] = "Invalid user !!";
     }
 
+
     FirstName = "";
     ModelState.Clear();
     return Page();
 
   }
+
+  // public void OnPostLogin()
+  // {
+
+  // }
 
 
 

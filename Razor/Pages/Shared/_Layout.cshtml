@@ -29,12 +29,11 @@
                 @if(Context.Session.GetString(SessionKeys.UserNameKey) != null)
                 {
                          @if(Context.Session.GetString(SessionKeys.UserNameKey) == "Admin")
-                {
-                        <li class="nav-item1">
-                            <a class="nav-link text-dark" asp-page-handler="back"  asp-area="" asp-page="/Manager">Home</a>
-                        </li>
-                }
-                
+                        {
+                                <li class="nav-item1">
+                                    <a class="nav-link text-dark" asp-page-handler="back"  asp-area="" asp-page="/Manager">Home</a>
+                                </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-page-handler="logout" asp-area="" asp-page="/Index">SignOut</a>
                         </li>
