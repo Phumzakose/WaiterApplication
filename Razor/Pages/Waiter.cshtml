@@ -54,7 +54,7 @@
                     }
                     else if(WorkingDays.Week >0)
                     {
-                        <h2>WEEK 2 SCHEDULE</h2>
+                        <h2>WEEK 2</h2>
                     }
                     @if(@HttpContext.Session.GetString(SessionKeys.UserNameKey) != "Admin")
                     {
@@ -89,7 +89,6 @@
                                                 <br>
                                                 <i class="fa fa-calendar-o" aria-hidden="true"> <label class="form-check-label" >@item.Key</label> </i> 
                                             </td>
-
 
                                            @if(@Model.WorkingEmployees.ContainsKey(item.Key))
                                            {
@@ -130,8 +129,7 @@
                             
                                                         <input type="color" value="#fcbf49" id="colorPicker" /> 
                                                 </td>
-                                       
-                                                    
+                                           
                                             } 
                                    
                                     </tr>

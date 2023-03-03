@@ -324,10 +324,6 @@ public class WaiterAvailability : IWaiterAvailability
 
 
 
-
-
-
-
 }
 
 
